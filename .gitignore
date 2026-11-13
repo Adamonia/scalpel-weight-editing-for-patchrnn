@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+runs/
+bundle*/
+model-archive/
+temp/
+*.pth
+*.npz
