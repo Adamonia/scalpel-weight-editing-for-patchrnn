@@ -3,6 +3,16 @@
 Nothing here writes to the archive, the bundles or runs/. A temporary Session
 directory in ext/tmp is used only to load the model, vocabulary and counts.
 """
+import os
+import sys
+# Paths. Set the SCALPEL_* variables to use other folders.
+_HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.abspath(os.path.join(_HERE, '..', '..'))   # repo root
+WORK = os.environ.get('SCALPEL_WORK', os.path.join(ROOT, 'work'))
+ARCHIVE = os.environ.get('SCALPEL_ARCHIVE', os.path.join(ROOT, '..', 'model-archive'))
+BUNDLE = os.environ.get('SCALPEL_BUNDLE', os.path.join(ROOT, 'bundle'))
+if ROOT not in sys.path:
+    sys.path.insert(0, ROOT)
 import copy
 import os
 import re
@@ -10,15 +20,12 @@ import sys
 import warnings
 
 warnings.filterwarnings('ignore')
-sys.path.insert(0, '/home/claude/work/scalpel_project')
 import numpy as np
 import torch
 
 from scalpel.engine import Session
 
-ARCHIVE = '/mnt/user-data/uploads/patchrnn-archive/model-archive'
-BUNDLE = '/home/claude/work/bundle'
-EXT = '/home/claude/work/ext'
+EXT = _HERE   # out/ and tmp/ are inside this folder
 OUT = EXT + '/out'
 MODELS = [0, 2, 3, 4, 5, 8, 12, 13]
 PRIOR_SHIFT = 0.7159          # ln(20442/9991), subtracted from the security entry of the output bias

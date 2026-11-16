@@ -1,7 +1,13 @@
 """Step 4: build out/REPORT.md tables from the saved json files only."""
+import os
+import sys
+# Paths. Set the SCALPEL_* variables to use other folders.
+_HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.abspath(os.path.join(_HERE, '..', '..'))   # repo root
+WORK = os.environ.get('SCALPEL_WORK', os.path.join(ROOT, 'work'))
 import json
 import numpy as np
-O = '/home/claude/work/exth/out'
+O = os.path.join(_HERE, 'out')
 MODELS = [3, 4, 5, 8, 12, 13]
 A = {n: json.load(open('%s/t1t2_M%d.json' % (O, n))) for n in MODELS}
 B = {n: json.load(open('%s/t3t4_M%d.json' % (O, n))) for n in MODELS}

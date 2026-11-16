@@ -3,8 +3,8 @@ Only rows with part < 2 are forwarded. Holdout is not touched here."""
 import hashlib, time
 from fwd import *
 
-FIN = os.path.dirname(HERE) + '/final' if False else '/home/claude/work/r3/final'
-dec = json.load(open('/home/claude/work/r3/out/decisions.json'))
+FIN = os.path.dirname(HERE)   # final/
+dec = json.load(open(ROOT + '/experiments/round3/out/decisions.json'))
 res = {}
 for no in ALL_MODELS:
     d = dec[str(no)]
@@ -17,7 +17,7 @@ for no in ALL_MODELS:
     check_idx(s0.part, dev)
     o = edited_margins(no, dev, ('R',))
     part, y = o['part'], o['y']
-    saved = np.load('/home/claude/work/r3/out/margins_M%d.npz' % no)
+    saved = np.load(ROOT + '/experiments/round3/out/margins_M%d.npz' % no)
     gap_margin = float(np.abs(o['R'] - saved['E3_k3'][dev]).max())
     gap_e0 = float(np.abs(o['E0'] - saved['E0'][dev]).max())
     r = {'applied': d['applied'], 'seconds': round(time.time() - t0, 1), 'n_hit': o['hit']['R'],
@@ -35,5 +35,5 @@ for no in ALL_MODELS:
 gaps = [v[p][g] for v in res.values() if 'diag' in v for p in ('diag', 'guard') for g in ('gap_vs_decisions_recipe', 'gap_vs_decisions_original')]
 # M6 and M15 keep original: compare their stored F1 before with the cached head
 res['_summary'] = {'max_abs_f1_gap_vs_decisions': max(gaps), 'max_abs_margin_gap_vs_saved': max(v['max_abs_margin_gap_R_vs_saved_r3'] for v in res.values() if 'diag' in v)}
-json.dump(res, open('/home/claude/work/r3/final/out/step1_verify.json', 'w'), indent=1)
+json.dump(res, open(FIN + '/out/step1_verify.json', 'w'), indent=1)
 print(res['_summary'])

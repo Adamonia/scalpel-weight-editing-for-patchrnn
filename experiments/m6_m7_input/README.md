@@ -3,7 +3,7 @@
 Tests if M6 (BERT word pieces) and M7 (RoBERTa byte-pair ids) can be repaired without training by a change of the input format. Variants: training format, single-space tokenization, each abstract token alone, copy of the boundary twin into untrained rows, mean fill.
 
 Files:
-- `common.py`: shared code (tokenization variants, model run, metrics, bootstrap). Change the paths at the top.
+- `common.py`: shared code (tokenization variants, model run, metrics, bootstrap). Paths come from `SCALPEL_*` variables.
 - `facts_probe.py`: shows how the tokenizer splits the training-time text (probe only).
 - `step0_check.py`: checks that the encoding equals the bundle and the model gives the archive predictions.
 - `step1_facts.py`: facts about formats, untrained rows and twins. Writes `out/facts.json`.

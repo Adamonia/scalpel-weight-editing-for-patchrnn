@@ -1,8 +1,14 @@
 # M3 message embedding rows: original and after the edit of each round. Rows are sorted by training count c.
+import os
+import sys
+# Paths. Set the SCALPEL_* variables to use other folders.
+_HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.abspath(os.path.join(_HERE, '..', '..'))   # repo root
+WORK = os.environ.get('SCALPEL_WORK', os.path.join(ROOT, 'work'))
 import sys, numpy as np, torch, matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-sys.path.insert(0, "/home/claude/work/r3")
+sys.path.insert(0, os.path.join(ROOT, 'experiments', 'round3'))
 import r3lib
 s = r3lib.get_session(3)
 name, window, cnt = r3lib.table_specs(s, 3)[0]
@@ -34,5 +40,5 @@ axs[0].set_yticks(range(len(ids))); axs[0].set_yticklabels(lbl, fontsize=11)
 cax = fig.add_axes([0.925, 0.2, 0.012, 0.6]); fig.colorbar(im, cax=cax, label="Weight value")
 fig.text(0.01, 0.01, "Not visible here: the bias. Round 1 also subtracted 0.716 from one bias value (prior correction). Round 2 also moved the decision threshold. Round 3 changed no bias.", fontsize=10.5, color="#444")
 fig.subplots_adjust(left=0.13, right=0.91, top=0.86, bottom=0.14)
-fig.savefig("/home/claude/work/fig/fig10_rounds_embedding.png", dpi=170, facecolor="white")
+fig.savefig(os.path.join(_HERE, 'fig10_rounds_embedding.png'), dpi=170, facecolor="white")
 print(list(zip([vocab[i] for i in ids], c)))

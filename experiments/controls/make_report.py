@@ -1,8 +1,14 @@
 """Build out/REPORT.md from the computed files. Every number comes from out/*.json."""
+import os
+import sys
+# Paths. Set the SCALPEL_* variables to use other folders.
+_HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.abspath(os.path.join(_HERE, '..', '..'))   # repo root
+WORK = os.environ.get('SCALPEL_WORK', os.path.join(ROOT, 'work'))
 import json
 import numpy as np
 
-OUT = '/home/claude/work/ext/out'
+OUT = os.path.join(_HERE, 'out')
 MODELS = [0, 2, 3, 4, 5, 8, 12, 13]
 R = json.load(open(OUT + '/splits.json'))['models']
 H = json.load(open(OUT + '/holm.json'))
@@ -44,7 +50,7 @@ def rng4(v):
 
 P('# Scalpel control experiments (word-level models M0, M2, M3, M4, M5, M8, M12, M13)')
 P('')
-P('All numbers below were computed by the scripts in `/home/claude/work/ext/` and read from `/home/claude/work/ext/out/`. '
+P('All numbers below were computed by the scripts in `experiments/controls/` and read from `experiments/controls/out/`. '
   'Units: F1, accuracy, precision, recall in percent points (pp). "Effect" = method minus `orig` at threshold 0, on the eval half. '
   '`UZ` = `untrained_zero`. "rc" = label-free recenter (fit-half mean margin set equal to the fit-half mean of `orig`). '
   'Format "mean [p2.5, p97.5]" is over 50 random stratified 50/50 splits (seeds 0..49). '
@@ -146,7 +152,7 @@ for n in MODELS:
 table(['model', 'orig F1 (full test)', 'UZ (rc)', 'UZ (no rc)', 'rare_zero (rc)', 'impute mean (rc)', 'impute kNN (rc)', 'freqmatch placebo mean (rc)', 'uniform placebo mean (rc)'], rows)
 P('## 5. Holm correction of the 24 published comparisons (12 models x 2 rounds)')
 P('')
-P('Source: `/home/claude/work/results/summary_all.json` (holdout, 3,804 samples). `p_f1_up` is one-sided (share of bootstrap resamples with a positive F1 change); converted to two-sided as 2*min(p, 1-p). '
+P('Source: `results/summary_all.json` (holdout, 3,804 samples). `p_f1_up` is one-sided (share of bootstrap resamples with a positive F1 change); converted to two-sided as 2*min(p, 1-p). '
   'Bootstrap resolution: B = 10,000 (`N_BOOT` in scalpel/report.py), so a reported 0 means p < 1/B; its two-sided value is bounded here by 2/B = 0.0002 (used in Holm, so adjusted values for those are lower bounds on the true level, conservative). '
   'M15 round 1 changed no prediction (d_f1 = 0, p_f1_up = 0 is a tie artefact); I set its p to 1. Resamples with a zero difference count as "not positive", which inflates the one-sided p for rows with many ties (e.g. M7 round 2). '
   'McNemar (exact, two-sided, accuracy-type test on fixed/broken pairs) is corrected in a second family of 24; a reported 0.000000 is replaced by 1e-6.')

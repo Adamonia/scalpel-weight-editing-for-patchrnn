@@ -1,11 +1,17 @@
 """Step 5: bootstrap over test samples for the noise-to-signal (NSR) of each model and for the A-vs-B group contrast.
 Reads tmp/arrays_M*.npz. Writes out/bootstrap.json. 1000 resamples of the 7608 test samples (same resample for all models).
 This covers test-sample uncertainty only. It does not cover the choice of the 10 noise draws or the training run."""
+import os
+import sys
+# Paths. Set the SCALPEL_* variables to use other folders.
+_HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.abspath(os.path.join(_HERE, '..', '..'))   # repo root
+WORK = os.environ.get('SCALPEL_WORK', os.path.join(ROOT, 'work'))
 import json
 import numpy as np
-O = '/home/claude/work/exth2/out'
+O = os.path.join(_HERE, 'out')
 MODELS = [3, 4, 5, 8, 12, 13]
-A = {n: np.load('/home/claude/work/exth2/tmp/arrays_M%d.npz' % n) for n in MODELS}
+A = {n: np.load(os.path.join(_HERE, 'tmp', 'arrays_M%d.npz') % n) for n in MODELS}
 N = 7608
 rng = np.random.RandomState(0)
 idx = rng.randint(0, N, size=(1000, N))

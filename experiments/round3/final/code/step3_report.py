@@ -1,6 +1,8 @@
 """Step 3: write out/REPORT.md. Every number comes from out/round3_holdout.json."""
 import json
-O = '/home/claude/work/r3/final/out/'
+import os
+_HERE = os.path.dirname(os.path.abspath(__file__))
+O = os.path.join(os.path.dirname(_HERE), 'out') + '/'
 d = json.load(open(O + 'round3_holdout.json'))
 m = d['models']
 L = ['# Round 3 final evaluation on the sealed holdout (3,804 samples)', '',

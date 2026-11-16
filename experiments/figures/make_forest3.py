@@ -1,12 +1,18 @@
 # One chart: F1 change per model for rounds 1, 2 and 3, with 95 % intervals.
 # Colour shows if the change holds after Holm correction over all 36 comparisons.
+import os
+import sys
+# Paths. Set the SCALPEL_* variables to use other folders.
+_HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.abspath(os.path.join(_HERE, '..', '..'))   # repo root
+WORK = os.environ.get('SCALPEL_WORK', os.path.join(ROOT, 'work'))
 import json, matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
-H = json.load(open("/home/claude/work/ext/out/holm.json"))["results"]
-R3 = json.load(open("/home/claude/work/r3/final/out/round3_holdout.json"))["models"]
+H = json.load(open(os.path.join(ROOT, 'experiments', 'controls', 'out', 'holm.json')))["results"]
+R3 = json.load(open(os.path.join(ROOT, 'experiments', 'round3', 'final', 'out', 'round3_holdout.json')))["models"]
 NAME = {15:"M15 CodeBERT",14:"M14 Hybrid",12:"M12 Trans-8H-2E",5:"M5 Trans-8H",0:"M0 LSTM",
         2:"M2 CNN",13:"M13 Trans-1H-2E",3:"M3 Trans-1H",8:"M8 Trans-16H",4:"M4 Trans-2H",
         7:"M7 Trans-8H+RoBERTa",6:"M6 Trans-8H+BERT"}
@@ -15,7 +21,7 @@ row = {(x["round"], x["model"]): (x["d_f1"], x["ci_f1"][0], x["ci_f1"][1], x["si
 for k, x in R3.items():
     d = x["d_f1_vs_original"]; lo, hi = x["ci95"] if x.get("ci95") else (d, d)
     row[(3, int(k))] = (d, lo, hi, x.get("holm36_sig_f1", False), x.get("p_f1_two_sided", 1) < 0.05)
-S = json.load(open("/home/claude/work/results/summary_all.json"))
+S = json.load(open(os.path.join(ROOT, 'results', 'summary_all.json')))
 f1 = {(x["round"], x["model"]): x["f1"] for x in S}   # [original, after the round]
 F = {0: {int(k): x["f1_original"] for k, x in R3.items()}, 3: {int(k): x["f1_round3"] for k, x in R3.items()}}
 for rnd in (1, 2): F[rnd] = {m: (f1[(rnd, m)][1] if (rnd, m) in f1 else F[0][m]) for m in NAME}
@@ -54,5 +60,5 @@ h = [Line2D([], [], color=GREEN, marker="o", lw=3, label="Real gain (holds after
      Line2D([], [], color=GREY, marker="o", lw=3, label="No clear change")]
 fig.legend(handles=h, loc="lower center", ncol=4, frameon=False, fontsize=10.5)
 fig.subplots_adjust(left=0.13, right=0.925, top=0.93, bottom=0.17)
-fig.savefig("/home/claude/work/fig/fig0_gains3.png", dpi=200, facecolor="white")
+fig.savefig(os.path.join(_HERE, 'fig0_gains3.png'), dpi=200, facecolor="white")
 for m in order[::-1]: print(NAME[m], [RK[k][m] for k in (0, 1, 2, 3)])

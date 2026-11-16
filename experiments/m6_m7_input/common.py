@@ -1,19 +1,28 @@
 """Shared helpers for the M6/M7 input-format study. Read-only use of the existing project files."""
+import os
+import sys
+# Paths. Set the SCALPEL_* variables to use other folders.
+_HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.abspath(os.path.join(_HERE, '..', '..'))   # repo root
+WORK = os.environ.get('SCALPEL_WORK', os.path.join(ROOT, 'work'))
+ARCHIVE = os.environ.get('SCALPEL_ARCHIVE', os.path.join(ROOT, '..', 'model-archive'))
+BUNDLE = os.environ.get('SCALPEL_BUNDLE', os.path.join(ROOT, 'bundle'))
+if ROOT not in sys.path:
+    sys.path.insert(0, ROOT)
 import sys, os, json, time
 import numpy as np, torch
-sys.path.insert(0, '/home/claude/work/scalpel_project')
 from scalpel import retokenize as R
 from scalpel.models import build_model
 
-ARCH = '/mnt/user-data/uploads/patchrnn-archive/model-archive'
-W = '/home/claude/work'
-OUT = W + '/ext67/out'
-CACHE = W + '/ext67/cache'
+ARCH = ARCHIVE
+W = WORK
+OUT = os.path.join(_HERE, 'out')
+CACHE = os.path.join(W, 'ext67', 'cache')
 os.makedirs(CACHE, exist_ok=True)
 CFG = {
-    6: dict(kind='bert', bundle=W + '/bundle_bert', files=[W + '/tokenizers/bert/vocab.txt']),
-    7: dict(kind='roberta', bundle=W + '/bundle_roberta',
-            files=[W + '/tokenizers/roberta/vocab.json', W + '/tokenizers/roberta/merges.txt']),
+    6: dict(kind='bert', bundle=BUNDLE + '_bert', files=[ROOT + '/tokenizers/bert/vocab.txt']),
+    7: dict(kind='roberta', bundle=BUNDLE + '_roberta',
+            files=[ROOT + '/tokenizers/roberta/vocab.json', ROOT + '/tokenizers/roberta/merges.txt']),
 }
 LEN = R.LEN
 

@@ -1,18 +1,24 @@
 """Step 2b: metrics, paired bootstrap, McNemar, Holm from the saved holdout margins. Uses scalpel/report.py as rounds 1 and 2."""
+import os
+import sys
+# Paths. Set the SCALPEL_* variables to use other folders.
+_HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.abspath(os.path.join(_HERE, '..', '..', '..', '..'))   # repo root
+WORK = os.environ.get('SCALPEL_WORK', os.path.join(ROOT, 'work'))
 import sys, json, datetime
 import numpy as np
-sys.path.insert(0, '/home/claude/work/r3/final/code/scalpel_project')
+if ROOT not in sys.path:
+    sys.path.insert(0, ROOT)
 from scalpel.report import compare, paired_bootstrap, roc_auc, mcnemar_exact, N_BOOT
 from scalpel.engine import confusion_metrics
 
-OUTD = '/home/claude/work/r3/final/out/'
-W = '/home/claude/work/'
+OUTD = os.path.join(_HERE, '..', 'out') + '/'
 ALL = [0, 2, 3, 4, 5, 6, 7, 8, 12, 13, 14, 15]
-dec = json.load(open(W + 'r3/out/decisions.json'))
-pub = json.load(open(W + 'results/summary_all.json'))
+dec = json.load(open(ROOT + '/experiments/round3/out/decisions.json'))
+pub = json.load(open(ROOT + '/results/summary_all.json'))
 r1 = {r['model']: r for r in pub if r['round'] == 1}
 r2 = {r['model']: r for r in pub if r['round'] == 2}
-holm_pub = json.load(open(W + 'ext/out/holm.json'))['results']
+holm_pub = json.load(open(ROOT + '/experiments/controls/out/holm.json'))['results']
 
 
 def holm(ps):                                     # same function as ext/holm.py

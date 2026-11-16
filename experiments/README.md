@@ -3,7 +3,7 @@
 All studies after rounds 1 and 2. Each folder has its code, a short `README.md` (what it tests, how to run, where the results are) and results in `out/`.
 
 Before you run a script:
-- The scripts use absolute paths of the study machine (`/home/claude/work/...` and `/mnt/user-data/uploads/...`). Change the paths at the top of the scripts or in `common.py`.
+- The paths come from the variables `SCALPEL_WORK`, `SCALPEL_ARCHIVE`, `SCALPEL_BUNDLE` (and `SCALPEL_PUB_TEMP`, `SCALPEL_RUNS`). The defaults are folders of the repository (see the root `README.md`). The shell scripts use `PYTHON` for the Python command.
 - Model weights, cached logits, bundles and the dataset are not in the repository. Some files named in the reports (for example `logits_M*.npz` or `margins_M*.npz`) are not in `out/`.
 - The reports in `out/` are the result files to read. The json and csv files next to them hold the numbers.
 

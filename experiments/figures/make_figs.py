@@ -2,7 +2,12 @@
 Run: python3 make_figs.py
 """
 import sys, os, json, shutil, tempfile
-sys.path.insert(0, '/home/claude/work/ext')
+# Paths. Set the SCALPEL_* variables to use other folders.
+_HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.abspath(os.path.join(_HERE, '..', '..'))   # repo root
+WORK = os.environ.get('SCALPEL_WORK', os.path.join(ROOT, 'work'))
+BUNDLE = os.environ.get('SCALPEL_BUNDLE', os.path.join(ROOT, 'bundle'))
+sys.path.insert(0, os.path.join(ROOT, 'experiments', 'controls'))   # for common.py
 import numpy as np
 import matplotlib
 matplotlib.use('Agg')
@@ -10,8 +15,8 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
 from sklearn.metrics import precision_recall_curve
 
-FIG = '/home/claude/work/fig'
-OUT = '/home/claude/work/ext/out'
+FIG = _HERE   # figure output folder (this folder)
+OUT = os.path.join(ROOT, 'experiments', 'controls', 'out')
 BLUE, ORANGE, GREY = '#2a6fbb', '#e08a1e', '#8a8a8a'
 MODELS = [0, 2, 3, 4, 5, 8, 12, 13]
 plt.rcParams.update({'font.size': 15, 'axes.titlesize': 17, 'axes.labelsize': 15,
@@ -31,7 +36,7 @@ def load(no):
     return {k: d[k] for k in d.files}
 
 
-bundle = np.load('/home/claude/work/bundle/bundle.npz')
+bundle = np.load(os.path.join(BUNDLE, 'bundle.npz'))
 part = bundle['part']
 ho = part == 2
 
@@ -114,7 +119,7 @@ fig.tight_layout(); save(fig, 'fig3_flow')
 
 # ---------------- Fig 4: example ----------------
 tmp = tempfile.mkdtemp()
-shutil.copytree('/home/claude/work/ext/tmp/S_M3', tmp + '/S_M3')     # copy so the original is never touched
+shutil.copytree(os.path.join(ROOT, 'experiments', 'controls', 'tmp', 'S_M3'), tmp + '/S_M3')     # copy so the original is never touched
 from common import Session, untrained_ids, msg_window
 s = Session(tmp + '/S_M3')
 U = set(int(i) for i in untrained_ids(s))

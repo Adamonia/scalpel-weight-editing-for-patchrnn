@@ -14,4 +14,4 @@ Shell scripts (they start the scripts above and `study/` scripts in order):
 - `battery_all.sh`, `battery_new.sh`: the diagnostic battery (`study/battery.py`) for the archive models and for M14, M6, M7.
 - `finalize_all.sh`: finalizes the sessions of the eight base models and builds the tables (`study/aggregate.py`).
 
-The paths in the scripts are absolute paths of the study machine. Change them before a run.
+The scripts take paths from `SCALPEL_WORK`, `SCALPEL_RUNS`, `SCALPEL_ARCHIVE`, `SCALPEL_BUNDLE` and `SCALPEL_PUB_TEMP`, and the Python command from `PYTHON`. The defaults are folders of the repository.

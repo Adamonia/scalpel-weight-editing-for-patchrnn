@@ -1,5 +1,5 @@
 # Check: my encoding of the training format equals the project bundle, and the model reproduces predicted.txt.
-import sys; sys.path.insert(0, '/home/claude/work/ext67')
+import sys, os; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))   # for common.py
 from common import *
 for m in (6, 7):
     b = load_bundle(m); ids = encode_variant(m, 'orig')

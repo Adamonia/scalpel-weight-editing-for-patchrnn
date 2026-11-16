@@ -1,4 +1,10 @@
 """Step 1: margins of all variants on the full test set (7,608 samples). Usage: step1.py MODEL_NO [n_seeds]"""
+import os
+import sys
+# Paths. Set the SCALPEL_* variables to use other folders.
+_HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.abspath(os.path.join(_HERE, '..', '..'))   # repo root
+WORK = os.environ.get('SCALPEL_WORK', os.path.join(ROOT, 'work'))
 import bisect
 import json
 import sys
@@ -150,7 +156,7 @@ meta['holdout_idx_matches_bundle_part'] = bool((part == s.part).all())
 ho = np.where(part == 2)[0]
 from scalpel.engine import confusion_metrics
 m = confusion_metrics(y[ho], pred[ho])
-sm = [r for r in json.load(open('/home/claude/work/results/summary_all.json')) if r['model'] == no and r['round'] == 1][0]
+sm = [r for r in json.load(open(os.path.join(ROOT, 'results', 'summary_all.json'))) if r['model'] == no and r['round'] == 1][0]
 meta['holdout_f1_recomputed'] = m['f1']; meta['holdout_f1_summary'] = sm['f1'][0]
 meta['holdout_acc_recomputed'] = m['acc']; meta['holdout_acc_summary'] = sm['acc'][0]
 meta['seconds'] = round(time.time() - t0, 1)

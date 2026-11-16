@@ -1,5 +1,5 @@
 # Inference-time variants for M6/M7: input format x label-free embedding edit. Logits are cached per variant.
-import sys; sys.path.insert(0, '/home/claude/work/ext67')
+import sys, os; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))   # for common.py
 from common import *
 
 def edit_rows(model, b, kind, vocab, mode):

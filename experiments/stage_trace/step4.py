@@ -1,9 +1,15 @@
 """Step 4: build out/REPORT.md from the saved json files only (trace_M*.json, readout_M*.json, weights.json).
 The text of the verdict is read from verdict.md (written by hand after reading the tables)."""
+import os
+import sys
+# Paths. Set the SCALPEL_* variables to use other folders.
+_HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.abspath(os.path.join(_HERE, '..', '..'))   # repo root
+WORK = os.environ.get('SCALPEL_WORK', os.path.join(ROOT, 'work'))
 import json, os
 import numpy as np
 
-O = '/home/claude/work/exth2/out'
+O = os.path.join(_HERE, 'out')
 MODELS = [3, 4, 5, 8, 12, 13]
 GA, GB = [3, 4, 13], [5, 8, 12]          # the two groups of the question
 T = {n: json.load(open('%s/trace_M%d.json' % (O, n))) for n in MODELS}
@@ -207,7 +213,7 @@ table(['Model', 'untrained tokens', 'samples', 'margin sd rms', 'median', 'NSR (
 a1 = [T[n]['S6']['1']['nsr_over_sd_clean_in_group'] for n in GA]; b1 = [T[n]['S6']['1']['nsr_over_sd_clean_in_group'] for n in GB]
 w('Exactly one untrained token: NSR(group) A = %s, B = %s; min A %s vs max B %s.\n' % (', '.join(f(x, 3) for x in a1), ', '.join(f(x, 3) for x in b1), f(min(a1), 3), f(max(b1), 3)))
 
-if os.path.exists('/home/claude/work/exth2/verdict.md'):
-    w(open('/home/claude/work/exth2/verdict.md').read())
+if os.path.exists(os.path.join(_HERE, 'verdict.md')):
+    w(open(os.path.join(_HERE, 'verdict.md')).read())
 open('%s/REPORT.md' % O, 'w').write('\n'.join(L))
 print('written', len(L))

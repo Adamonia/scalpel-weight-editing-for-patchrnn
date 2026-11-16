@@ -79,7 +79,7 @@ meta['n_samples_hit'] = nhit
 meta['n_rows_changed_E1'] = [int(((saved[i] != new_table(saved[i], specs[i][2], pad, 'E1')).any(1)).sum()) for i in range(len(specs))]
 
 # --- reproduce the earlier ext margins (8 word-level models), diag+guard samples only
-ext = '%s/ext/out/logits_M%d.npz' % (W, no)
+ext = '%s/experiments/controls/out/logits_M%d.npz' % (ROOT, no)
 if os.path.exists(ext):
     z = np.load(ext)
     meta['E0_vs_ext_orig_max_abs_gap'] = float(np.abs(res['E0'] - z['orig'][dev].astype(np.float64)).max())

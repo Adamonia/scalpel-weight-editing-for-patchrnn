@@ -1,6 +1,7 @@
 """Write out/REPORT.md and out/per_model_full.md from the saved json files only."""
 import json
-HERE = '/home/claude/work/r3'
+import os
+HERE = os.path.dirname(os.path.abspath(__file__))
 O = HERE + '/out'
 M = json.load(open(O + '/metrics.json'))
 S = json.load(open(O + '/summary.json'))

@@ -8,12 +8,12 @@ Protocol:
 3. A model gets the recipe only if its guard F1 is not below the original.
 
 Files:
-- `r3lib.py`, `analysis.py`: helpers and metrics. `r3lib.py` needs a `scalpel_project/` folder next to it (a copy of this repository's root; see `final/code/scalpel_project/`). Change the paths at the top.
+- `r3lib.py`, `analysis.py`: helpers and metrics. `r3lib.py` imports the `scalpel` package from the repository root. Paths come from `SCALPEL_*` variables (see the root `README.md`).
 - `compute_margins.py MODEL_NO`: margins of all candidates on diag and guard. The holdout is never forwarded.
 - `select_recipe.py`: chooses the recipe on diag. Writes `out/choice_diag.json`.
 - `finalize.py`: metrics on diag and guard, `recipe.json`, `decisions.json`.
 - `make_report.py`: builds `out/REPORT.md`.
-- `apply_round3.py`, `common.py`, `model.py`: copies of the retraining kit files for the six archive architectures. The kit in `../retrain_kit/` is the newer version. Use that one.
+- `tmp/apply_round3.py`, `tmp/common.py`, `tmp/model.py`: old copies of the retraining kit files for the six archive architectures. The kit in `../retrain_kit/` is the newer version. Use that one.
 - `final/`: the final holdout run. See `final/README.md`.
 
 How to run (order): `compute_margins.py` for each of the 12 models, `select_recipe.py`, `finalize.py`, `make_report.py`. Then the steps in `final/`.

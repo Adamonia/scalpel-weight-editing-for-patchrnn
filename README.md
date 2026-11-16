@@ -56,6 +56,11 @@ Local only (not in the repository): `runs/` (session records), `bundle/`, `bundl
 3. To check the tool, run the tests (section Tests).
 4. To train and test the 50 models, read `experiments/retrain_kit/README.md`.
 
+Paths. The scripts read these environment variables. Each one has a default relative to the repository root:
+`SCALPEL_ARCHIVE` (model archive, default `../model-archive`), `SCALPEL_BUNDLE` (data bundle, default `bundle/`),
+`SCALPEL_RUNS` (session records, default `runs/`), `SCALPEL_WORK` (work and output files, default `work/`),
+`SCALPEL_PUB_TEMP` (PatchDB source files, default `work/pub_temp`). The shell scripts also use `PYTHON` (default `python3`).
+
 ## Data protocol
 
 The original test set (7,608 samples, split seed 10) is divided one time with a fixed seed:

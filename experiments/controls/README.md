@@ -9,7 +9,7 @@ What it tests:
 - Holm correction over the 24 published comparisons of rounds 1 and 2.
 
 Files:
-- `common.py`: shared helpers (paths, session, edit variants). Change the paths at the top.
+- `common.py`: shared helpers (paths, session, edit variants). Paths come from `SCALPEL_*` variables.
 - `step1.py MODEL_NO [N_SEEDS]`: margins of all variants for one model.
 - `splits.py [MODEL_NO ...]`: 50 splits and bootstrap. Writes `out/splits.json`.
 - `holm.py`: Holm correction. Reads `summary_all.json` from rounds 1 and 2. Writes `out/holm.json`.

@@ -1,5 +1,5 @@
 # Facts: training-format vs normal (space-separated) tokenization, untrained rows, twins.
-import sys; sys.path.insert(0, '/home/claude/work/ext67')
+import sys, os; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))   # for common.py
 from common import *
 from collections import Counter
 res = {}

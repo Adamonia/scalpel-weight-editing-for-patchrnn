@@ -53,8 +53,8 @@ json.dump(metrics, open(OUT + '/metrics.json', 'w'), indent=1)
 json.dump(boots, open(OUT + '/summary.json', 'w'), indent=1)
 
 # ---- M15: not applicable, original kept; F1 from the cached head output of the unedited model
-z = np.load(W + '/bundle_codebert/base_feats_M15.npz')
-zb = np.load(W + '/bundle_codebert/bundle.npz')
+z = np.load(BUNDLE + '_codebert/base_feats_M15.npz')
+zb = np.load(BUNDLE + '_codebert/bundle.npz')
 p15, y15 = zb['part'], zb['y'].astype(np.int64)
 m15 = np.full(len(y15), np.nan)
 dev15 = np.where(p15 < HOLDOUT)[0]

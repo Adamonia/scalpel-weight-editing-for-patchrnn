@@ -1,22 +1,30 @@
 """Helpers for Round 3. Holdout (part 2) is sealed: no metric is ever computed on it."""
 import os
 import sys
+# Paths. Set the SCALPEL_* variables to use other folders.
+_HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.abspath(os.path.join(_HERE, '..', '..'))   # repo root
+WORK = os.environ.get('SCALPEL_WORK', os.path.join(ROOT, 'work'))
+ARCHIVE = os.environ.get('SCALPEL_ARCHIVE', os.path.join(ROOT, '..', 'model-archive'))
+BUNDLE = os.environ.get('SCALPEL_BUNDLE', os.path.join(ROOT, 'bundle'))
+if ROOT not in sys.path:
+    sys.path.insert(0, ROOT)
+import os
+import sys
 import json
 import warnings
 
 warnings.filterwarnings('ignore')
 HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, HERE + '/scalpel_project')
 import numpy as np
 import torch
 
 torch.set_num_threads(2)
 from scalpel.engine import Session
 
-W = '/home/claude/work'
-ARCHIVE = '/mnt/user-data/uploads/patchrnn-archive/model-archive'
+W = WORK
 OUT = HERE + '/out'
-BUNDLES = {6: W + '/bundle_bert', 7: W + '/bundle_roberta', 15: W + '/bundle_codebert'}
+BUNDLES = {6: BUNDLE + '_bert', 7: BUNDLE + '_roberta', 15: BUNDLE + '_codebert'}
 ALL_MODELS = [0, 2, 3, 4, 5, 8, 12, 13, 6, 7, 14, 15]
 TRANSFORMERS6 = [3, 4, 5, 8, 12, 13]
 KS = [1, 3, 10, 30, 100]
@@ -88,7 +96,7 @@ def get_session(no):
     os.makedirs(d, exist_ok=True)
     cfg = d + '/config.json'
     if not os.path.exists(cfg):
-        json.dump({'archive_dir': ARCHIVE, 'bundle_dir': BUNDLES.get(no, W + '/bundle'), 'model_no': no,
+        json.dump({'archive_dir': ARCHIVE, 'bundle_dir': BUNDLES.get(no, BUNDLE), 'model_no': no,
                    'batch_size': 16, 'limits': {}, 'created': 0}, open(cfg, 'w'))
     return Session(d)
 

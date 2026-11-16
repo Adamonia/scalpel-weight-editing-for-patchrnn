@@ -1,8 +1,14 @@
 """Step 3: Holm correction over the 24 published comparisons (12 models x 2 rounds)."""
+import os
+import sys
+# Paths. Set the SCALPEL_* variables to use other folders.
+_HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.abspath(os.path.join(_HERE, '..', '..'))   # repo root
+WORK = os.environ.get('SCALPEL_WORK', os.path.join(ROOT, 'work'))
 import json
 
 B = 10000      # N_BOOT in scalpel/report.py; the smallest nonzero bootstrap fraction is 1/B
-rows = json.load(open('/home/claude/work/results/summary_all.json'))
+rows = json.load(open(os.path.join(ROOT, 'results', 'summary_all.json')))
 
 
 def holm(ps):
@@ -51,7 +57,7 @@ out = {'m': len(items), 'alpha': 0.05, 'B_bootstrap': B, 'bootstrap_resolution':
                  'M14 round 1 and round 2 are the same edit with identical numbers (counted as two comparisons, as asked).',
                  'The F1 p-values come from the 3,804 holdout samples; McNemar uses the same holdout pairs.'],
        'results': items}
-json.dump(out, open('/home/claude/work/ext/out/holm.json', 'w'), indent=1)
+json.dump(out, open(os.path.join(_HERE, 'out', 'holm.json'), 'w'), indent=1)
 print('%-3s %-3s %-8s %-8s %-9s %-9s %-9s %-9s' % ('rd', 'M', 'd_f1', 'p2(F1)', 'holm(F1)', 'mcn', 'holm(mcn)', ''))
 for it in items:
     print('%-3d %-3d %-8.3f %-8.4f %-9.4f %-9.6f %-9.4f %s%s' % (it['round'], it['model'], it['d_f1'], it['p_f1_two_sided'], it['holm_p_f1'], it['mcnemar_p'], it['holm_p_mcnemar'],

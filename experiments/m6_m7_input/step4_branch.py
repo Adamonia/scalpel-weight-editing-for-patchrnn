@@ -1,5 +1,5 @@
 # Which input branch causes the loss with normal tokenization? Mix branch features from the two formats.
-import sys; sys.path.insert(0, '/home/claude/work/ext67')
+import sys, os; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))   # for common.py
 from common import *
 def feats(model, ids, n_bs=32):
     out = {s: [] for s in ('twin_b', 'twin_a', 'msg')}; n = len(ids['tok_b']); zt = torch.zeros((n_bs, LEN), dtype=torch.int8)

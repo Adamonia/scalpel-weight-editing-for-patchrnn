@@ -4,6 +4,12 @@ Usage: splits.py [model_no ...]    (default: all word-level models that have log
 Writes out/splits_M{n}.json for each model and out/splits.json (all models together).
 Metrics are in percent points. All differences are method minus orig at threshold 0.
 """
+import os
+import sys
+# Paths. Set the SCALPEL_* variables to use other folders.
+_HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.abspath(os.path.join(_HERE, '..', '..'))   # repo root
+WORK = os.environ.get('SCALPEL_WORK', os.path.join(ROOT, 'work'))
 import json
 import os
 import sys
@@ -11,7 +17,7 @@ import sys
 import numpy as np
 from sklearn.metrics import average_precision_score, roc_auc_score
 
-OUT = '/home/claude/work/ext/out'
+OUT = os.path.join(_HERE, 'out')
 MODELS = [0, 2, 3, 4, 5, 8, 12, 13]
 N_SPLITS = 50
 N_BOOT = 2000

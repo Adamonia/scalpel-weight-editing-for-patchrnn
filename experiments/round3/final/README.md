@@ -9,9 +9,9 @@ Files:
 - `code/step2b_stats.py`: metrics, paired bootstrap, McNemar test, Holm correction. Writes `out/round3_holdout.json`.
 - `code/step3_report.py`: builds `out/REPORT.md`.
 - `code/fwd.py`, `code/r3lib.py`: helpers.
-- `code/scalpel_project/`: a copy of the tool (`scalpel/`, `tests/`) that the scripts import. See its README.
+- `code/tmp/scalpel_project/`: an old copy of the tool (`scalpel/`, `tests/`). It is not used. The scripts import `scalpel` from the repository root.
 - `code/tmp/S_M*/config.json`: temporary session configs. They are scratch files.
 
-How to run: `step1_verify.py`, `step2a_forward.py`, `step2b_stats.py`, `step3_report.py` in order. Change the paths at the top of the scripts.
+How to run: `step1_verify.py`, `step2a_forward.py`, `step2b_stats.py`, `step3_report.py` in order. Paths come from `SCALPEL_*` variables (see the root `README.md`).
 
 Results: `out/REPORT.md`, `out/round3_holdout.json`, `out/summary_all_with_r3.json`.

@@ -8,11 +8,20 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-sys.path.insert(0, '/home/claude/work/scalpel_project')
+import os
+import sys
+# Paths. Set the SCALPEL_* variables to use other folders.
+_HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.abspath(os.path.join(_HERE, '..', '..'))   # repo root
+WORK = os.environ.get('SCALPEL_WORK', os.path.join(ROOT, 'work'))
+ARCHIVE = os.environ.get('SCALPEL_ARCHIVE', os.path.join(ROOT, '..', 'model-archive'))
+PUB_TEMP = os.environ.get('SCALPEL_PUB_TEMP', os.path.join(WORK, 'pub_temp'))
+if ROOT not in sys.path:
+    sys.path.insert(0, ROOT)
 from scalpel.data import build_dataset
 from scalpel.models import load_state_dict
 
-BASE = '/mnt/user-data/uploads/patchrnn-archive/model-archive/'
+BASE = ARCHIVE + '/'
 
 
 class Cand(nn.Module):
@@ -89,7 +98,7 @@ class Cand(nn.Module):
 def main():
     model_no = int(sys.argv[1])
     n = int(sys.argv[2]) if len(sys.argv) > 2 else 96
-    d = build_dataset('/home/claude/ext/pub_temp', '/home/claude/work/cache/dataset.npz')
+    d = build_dataset(PUB_TEMP, os.path.join(WORK, 'cache', 'dataset.npz'))
     sd = load_state_dict(BASE + f'Model{model_no}/content/temp/model_TwinTransformer.pth')
     pf = np.array([int(x) for x in open(BASE + f'Model{model_no}/content/predicted.txt').read().split()])[:n]
     idx = d['test_idx'][:n]

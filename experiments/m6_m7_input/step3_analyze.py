@@ -1,5 +1,5 @@
 # Metrics for every variant on all 7,608 and on the 3,804 holdout, plus paired bootstrap of the F1 difference.
-import sys; sys.path.insert(0, '/home/claude/work/ext67')
+import sys, os; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))   # for common.py
 from common import *
 VAR = [('orig', 'none'), ('orig', 'twin'), ('space', 'none'), ('space', 'twin'), ('space', 'twin+mean'),
        ('pertok', 'none'), ('pertok', 'twin')]
