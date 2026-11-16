@@ -1,0 +1,40 @@
+{
+ "model": 4,
+ "grad_norm_mean": 0.260466992855072,
+ "grad_norm_rms": 0.27085235714912415,
+ "mean_dp_norm": 1.9940574169158936,
+ "mean_clean_pooled_norm": 11.558890342712402,
+ "mean_abs_along_over_mean_dp_norm": 0.7395804524421692,
+ "mean_per_sample_abs_cos_dp_grad": 0.6578826308250427,
+ "rms_cos_dp_grad": 0.7624143958091736,
+ "random_direction_mean_abs_cos": 0.07052369794346953,
+ "random_direction_rms_cos": 0.08838834764831843,
+ "mean_abs_along": 1.4747658967971802,
+ "mean_ortho": 1.2567461729049683,
+ "margin_sd_actual_rms_all": 0.8853387893739065,
+ "margin_sd_from_along_gradient_rms_all": 0.5903026461601257,
+ "corr_linear_vs_actual_change": 0.869551538753269,
+ "rms_actual_change_hit": 1.3701969019936822,
+ "rms_linear_change_hit": 0.9337290525436401,
+ "clean_margin_sd": 3.5752712553519927,
+ "rms_dp_all": 3.6687850952148438,
+ "rms_clean_pooled_centered": 9.978379249572754,
+ "relative_change_at_pooled": 0.3676734471053434,
+ "gain_noise_margin_per_unit_dp": 0.24131661201105625,
+ "gain_signal_margin_per_unit_p": 0.3583018009167246,
+ "gain_ratio_noise_over_signal": 0.6735009743005516,
+ "nsr_all": 0.24762842484989103,
+ "dp_spectrum": {
+  "participation_ratio": 1.7690798044204712,
+  "top1_share": 0.7191063761711121,
+  "top5_share": 0.9846594333648682
+ },
+ "clean_pooled_spectrum_all_samples": {
+  "participation_ratio": 1.7624579668045044,
+  "top1_share": 0.7195645570755005,
+  "top5_share": 0.9852038025856018
+ },
+ "mean_cos_grad_vs_centered_clean_pooled": -0.179387629032135,
+ "norm_mean_dp_over_draws": 1.8574961423873901,
+ "norm_dp_minus_mean_over_draws": 2.310927152633667
+}
