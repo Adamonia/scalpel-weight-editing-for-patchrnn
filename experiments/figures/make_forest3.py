@@ -15,15 +15,18 @@ row = {(x["round"], x["model"]): (x["d_f1"], x["ci_f1"][0], x["ci_f1"][1], x["si
 for k, x in R3.items():
     d = x["d_f1_vs_original"]; lo, hi = x["ci95"] if x.get("ci95") else (d, d)
     row[(3, int(k))] = (d, lo, hi, x.get("holm36_sig_f1", False), x.get("p_f1_two_sided", 1) < 0.05)
-orig = {int(k): x["f1_original"] for k, x in R3.items()}; fin = {int(k): x["f1_round3"] for k, x in R3.items()}
+S = json.load(open("/home/claude/work/results/summary_all.json"))
+f1 = {(x["round"], x["model"]): x["f1"] for x in S}   # [original, after the round]
+F = {0: {int(k): x["f1_original"] for k, x in R3.items()}, 3: {int(k): x["f1_round3"] for k, x in R3.items()}}
+for rnd in (1, 2): F[rnd] = {m: (f1[(rnd, m)][1] if (rnd, m) in f1 else F[0][m]) for m in NAME}
 def ranks(d): return {m: i + 1 for i, m in enumerate(sorted(d, key=lambda k: -d[k]))}
-ro, rf = ranks(orig), ranks(fin)
+RK = {k: ranks(v) for k, v in F.items()}
 order = sorted(NAME, key=lambda m: row[(3, m)][0])
 
 GREEN, RED, LIGHT, GREY = "#1a9850", "#d73027", "#9ecae1", "#b0b0b0"
 def colour(d, holm, raw): return (GREEN if d > 0 else RED) if holm else (LIGHT if raw else GREY)
 TITLE = {1: "Round 1 (MCC rule)", 2: "Round 2 (F1 rule)", 3: "Round 3 (one fixed recipe)"}
-fig, axes = plt.subplots(1, 3, figsize=(13.5, 6.2), sharey=True)
+fig, axes = plt.subplots(1, 3, figsize=(14.5, 6.4), sharey=True)
 for ax, rnd in zip(axes, (1, 2, 3)):
     ax.axvline(0, color="black", lw=1)
     for y, m in enumerate(order):
@@ -38,15 +41,22 @@ for ax, rnd in zip(axes, (1, 2, 3)):
     ax.grid(axis="x", color="#eee"); ax.set_axisbelow(True)
     for s in ("top", "right"): ax.spines[s].set_visible(False)
 axes[0].set_yticks(range(len(order))); axes[0].set_yticklabels([NAME[m] for m in order], fontsize=11)
+# Rank column: the F1 rank of the model with original weights and after each round.
+X0 = 5.9
 for y, m in enumerate(order):
-    a, b = ro[m], rf[m]; big = b < a - 1
-    axes[2].text(5.1, y, f"{a} → {b}" if a != b else f"{a}", va="center", fontsize=11, color=GREEN if big else "#333", fontweight="bold" if big else "normal")
-axes[2].text(5.1, len(order) - 0.2, "F1 rank", fontsize=11, fontweight="bold", va="bottom")
+    best = min(RK[k][m] for k in (1, 2, 3)); big = best < RK[0][m] - 1
+    for j, k in enumerate((0, 1, 2, 3)):
+        v = RK[k][m]; hot = k > 0 and v < RK[0][m] - 1
+        axes[2].text(X0 + j * 0.95, y, str(v), va="center", ha="center", fontsize=11,
+                     color=GREEN if hot else "#333", fontweight="bold" if hot else "normal")
+for j, t in enumerate(("orig", "R1", "R2", "R3")):
+    axes[2].text(X0 + j * 0.95, len(order) - 0.45, t, ha="center", va="bottom", fontsize=9.5, color="#555")
+axes[2].text(X0 + 1.42, len(order) + 0.05, "F1 rank", ha="center", va="bottom", fontsize=11, fontweight="bold")
 h = [Line2D([], [], color=GREEN, marker="o", lw=3, label="Real gain (holds after strict correction)"),
      Line2D([], [], color=RED, marker="o", lw=3, label="Real loss (holds after strict correction)"),
      Line2D([], [], color=LIGHT, marker="o", lw=3, label="Only without correction"),
      Line2D([], [], color=GREY, marker="o", lw=3, label="No clear change")]
 fig.legend(handles=h, loc="lower center", ncol=4, frameon=False, fontsize=10.5)
-fig.tight_layout(rect=(0, 0.06, 0.95, 1))
+fig.tight_layout(rect=(0, 0.06, 0.84, 0.97))
 fig.savefig("/home/claude/work/fig/fig0_gains3.png", dpi=200, facecolor="white")
-for m in order[::-1]: print(NAME[m], ro[m], rf[m], row[(3, m)])
+for m in order[::-1]: print(NAME[m], [RK[k][m] for k in (0, 1, 2, 3)])
