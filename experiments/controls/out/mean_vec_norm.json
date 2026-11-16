@@ -1,0 +1,50 @@
+{
+ "0": {
+  "norm_mean_row": 0.05317404121160507,
+  "mean_norm_of_trained_rows": 11.292387008666992,
+  "ratio": 0.004708839580416679,
+  "mean_norm_untrained_rows": 11.288376808166504
+ },
+ "2": {
+  "norm_mean_row": 0.05613148584961891,
+  "mean_norm_of_trained_rows": 11.296497344970703,
+  "ratio": 0.004968928173184395,
+  "mean_norm_untrained_rows": 11.30374526977539
+ },
+ "3": {
+  "norm_mean_row": 0.11258067190647125,
+  "mean_norm_of_trained_rows": 11.301202774047852,
+  "ratio": 0.009961831383407116,
+  "mean_norm_untrained_rows": 11.28877067565918
+ },
+ "4": {
+  "norm_mean_row": 0.09896623343229294,
+  "mean_norm_of_trained_rows": 11.292830467224121,
+  "ratio": 0.008763633668422699,
+  "mean_norm_untrained_rows": 11.28718376159668
+ },
+ "5": {
+  "norm_mean_row": 0.059002723544836044,
+  "mean_norm_of_trained_rows": 11.292272567749023,
+  "ratio": 0.005225053057074547,
+  "mean_norm_untrained_rows": 11.300122261047363
+ },
+ "8": {
+  "norm_mean_row": 0.05773086100816727,
+  "mean_norm_of_trained_rows": 11.287365913391113,
+  "ratio": 0.0051146443001925945,
+  "mean_norm_untrained_rows": 11.292984962463379
+ },
+ "12": {
+  "norm_mean_row": 0.0678175687789917,
+  "mean_norm_of_trained_rows": 11.293025016784668,
+  "ratio": 0.006005261559039354,
+  "mean_norm_untrained_rows": 11.287568092346191
+ },
+ "13": {
+  "norm_mean_row": 0.10212201625108719,
+  "mean_norm_of_trained_rows": 11.300707817077637,
+  "ratio": 0.009036780335009098,
+  "mean_norm_untrained_rows": 11.280445098876953
+ }
+}

@@ -1,0 +1,647 @@
+{
+ "m": 24,
+ "alpha": 0.05,
+ "B_bootstrap": 10000,
+ "bootstrap_resolution": 0.0001,
+ "notes": [
+  "p_f1_up in summary_all.json is the share of paired-bootstrap resamples with a positive F1 difference (one-sided); converted to two-sided as 2*min(p,1-p).",
+  "Resamples with an exactly zero difference count as not positive, so ties inflate the one-sided p.",
+  "M14 round 1 and round 2 are the same edit with identical numbers (counted as two comparisons, as asked).",
+  "The F1 p-values come from the 3,804 holdout samples; McNemar uses the same holdout pairs."
+ ],
+ "results": [
+  {
+   "round": 1,
+   "model": 0,
+   "commits": [
+    "code branches removed"
+   ],
+   "d_f1": -0.864,
+   "ci_f1": [
+    -1.6882,
+    -0.0553
+   ],
+   "p_f1_up": 0.018,
+   "p_f1_two_sided": 0.036,
+   "p_f1_note": "two-sided = 2*min(p_up, 1-p_up)",
+   "mcnemar_p": 0.171565,
+   "mcnemar_p_used": 0.171565,
+   "mcnemar_note": "",
+   "fixed": 45,
+   "broken": 60,
+   "holm_p_f1": 0.72,
+   "holm_p_mcnemar": 1.0,
+   "sig_f1_raw": true,
+   "sig_f1_holm": false,
+   "sig_mcnemar_raw": false,
+   "sig_mcnemar_holm": false
+  },
+  {
+   "round": 1,
+   "model": 2,
+   "commits": [
+    "rare rows to zero"
+   ],
+   "d_f1": 0.475,
+   "ci_f1": [
+    -0.7194,
+    1.6831
+   ],
+   "p_f1_up": 0.7832,
+   "p_f1_two_sided": 0.4336,
+   "p_f1_note": "two-sided = 2*min(p_up, 1-p_up)",
+   "mcnemar_p": 0.675277,
+   "mcnemar_p_used": 0.675277,
+   "mcnemar_note": "",
+   "fixed": 99,
+   "broken": 106,
+   "holm_p_f1": 1.0,
+   "holm_p_mcnemar": 1.0,
+   "sig_f1_raw": false,
+   "sig_f1_holm": false,
+   "sig_mcnemar_raw": false,
+   "sig_mcnemar_holm": false
+  },
+  {
+   "round": 1,
+   "model": 3,
+   "commits": [
+    "prior correction",
+    "untrained rows to zero"
+   ],
+   "d_f1": -0.295,
+   "ci_f1": [
+    -1.6872,
+    1.0379
+   ],
+   "p_f1_up": 0.3296,
+   "p_f1_two_sided": 0.6592,
+   "p_f1_note": "two-sided = 2*min(p_up, 1-p_up)",
+   "mcnemar_p": 3.6e-05,
+   "mcnemar_p_used": 3.6e-05,
+   "mcnemar_note": "",
+   "fixed": 185,
+   "broken": 113,
+   "holm_p_f1": 1.0,
+   "holm_p_mcnemar": 0.000684,
+   "sig_f1_raw": false,
+   "sig_f1_holm": false,
+   "sig_mcnemar_raw": true,
+   "sig_mcnemar_holm": true
+  },
+  {
+   "round": 1,
+   "model": 4,
+   "commits": [
+    "prior correction",
+    "rare rows to zero",
+    "recentering"
+   ],
+   "d_f1": 0.427,
+   "ci_f1": [
+    -0.9041,
+    1.7161
+   ],
+   "p_f1_up": 0.741,
+   "p_f1_two_sided": 0.518,
+   "p_f1_note": "two-sided = 2*min(p_up, 1-p_up)",
+   "mcnemar_p": 0.0,
+   "mcnemar_p_used": 1e-06,
+   "mcnemar_note": "reported as 0 after rounding to 6 decimals; 1e-6 used (true p smaller)",
+   "fixed": 183,
+   "broken": 95,
+   "holm_p_f1": 1.0,
+   "holm_p_mcnemar": 2.4e-05,
+   "sig_f1_raw": false,
+   "sig_f1_holm": false,
+   "sig_mcnemar_raw": true,
+   "sig_mcnemar_holm": true
+  },
+  {
+   "round": 1,
+   "model": 5,
+   "commits": [
+    "prior correction",
+    "untrained rows to zero"
+   ],
+   "d_f1": 0.397,
+   "ci_f1": [
+    -0.817,
+    1.6394
+   ],
+   "p_f1_up": 0.7429,
+   "p_f1_two_sided": 0.5142,
+   "p_f1_note": "two-sided = 2*min(p_up, 1-p_up)",
+   "mcnemar_p": 4e-06,
+   "mcnemar_p_used": 4e-06,
+   "mcnemar_note": "",
+   "fixed": 185,
+   "broken": 106,
+   "holm_p_f1": 1.0,
+   "holm_p_mcnemar": 9.2e-05,
+   "sig_f1_raw": false,
+   "sig_f1_holm": false,
+   "sig_mcnemar_raw": true,
+   "sig_mcnemar_holm": true
+  },
+  {
+   "round": 1,
+   "model": 6,
+   "commits": [
+    "prior correction"
+   ],
+   "d_f1": -4.293,
+   "ci_f1": [
+    -6.2327,
+    -2.4217
+   ],
+   "p_f1_up": 0.0,
+   "p_f1_two_sided": 0.0002,
+   "p_f1_note": "bootstrap p_up=0 means < 1/B; two-sided bound 2/B used (true p is smaller)",
+   "mcnemar_p": 2.5e-05,
+   "mcnemar_p_used": 2.5e-05,
+   "mcnemar_note": "",
+   "fixed": 321,
+   "broken": 222,
+   "holm_p_f1": 0.0048000000000000004,
+   "holm_p_mcnemar": 0.0005,
+   "sig_f1_raw": true,
+   "sig_f1_holm": true,
+   "sig_mcnemar_raw": true,
+   "sig_mcnemar_holm": true
+  },
+  {
+   "round": 1,
+   "model": 7,
+   "commits": [
+    "prior correction",
+    "untrained rows to zero"
+   ],
+   "d_f1": -1.996,
+   "ci_f1": [
+    -3.5459,
+    -0.5012
+   ],
+   "p_f1_up": 0.0043,
+   "p_f1_two_sided": 0.0086,
+   "p_f1_note": "two-sided = 2*min(p_up, 1-p_up)",
+   "mcnemar_p": 0.000946,
+   "mcnemar_p_used": 0.000946,
+   "mcnemar_note": "",
+   "fixed": 196,
+   "broken": 135,
+   "holm_p_f1": 0.1806,
+   "holm_p_mcnemar": 0.015504,
+   "sig_f1_raw": true,
+   "sig_f1_holm": false,
+   "sig_mcnemar_raw": true,
+   "sig_mcnemar_holm": true
+  },
+  {
+   "round": 1,
+   "model": 8,
+   "commits": [
+    "prior correction",
+    "untrained rows to zero"
+   ],
+   "d_f1": 0.43,
+   "ci_f1": [
+    -0.6999,
+    1.5435
+   ],
+   "p_f1_up": 0.7705,
+   "p_f1_two_sided": 0.4590000000000001,
+   "p_f1_note": "two-sided = 2*min(p_up, 1-p_up)",
+   "mcnemar_p": 7e-06,
+   "mcnemar_p_used": 7e-06,
+   "mcnemar_note": "",
+   "fixed": 136,
+   "broken": 71,
+   "holm_p_f1": 1.0,
+   "holm_p_mcnemar": 0.000147,
+   "sig_f1_raw": false,
+   "sig_f1_holm": false,
+   "sig_mcnemar_raw": true,
+   "sig_mcnemar_holm": true
+  },
+  {
+   "round": 1,
+   "model": 12,
+   "commits": [
+    "prior correction",
+    "untrained rows to zero"
+   ],
+   "d_f1": 0.096,
+   "ci_f1": [
+    -0.9993,
+    1.1829
+   ],
+   "p_f1_up": 0.5742,
+   "p_f1_two_sided": 0.8515999999999999,
+   "p_f1_note": "two-sided = 2*min(p_up, 1-p_up)",
+   "mcnemar_p": 0.000912,
+   "mcnemar_p_used": 0.000912,
+   "mcnemar_note": "",
+   "fixed": 140,
+   "broken": 89,
+   "holm_p_f1": 1.0,
+   "holm_p_mcnemar": 0.015504,
+   "sig_f1_raw": false,
+   "sig_f1_holm": false,
+   "sig_mcnemar_raw": true,
+   "sig_mcnemar_holm": true
+  },
+  {
+   "round": 1,
+   "model": 13,
+   "commits": [
+    "rare rows to zero"
+   ],
+   "d_f1": 0.153,
+   "ci_f1": [
+    -0.9498,
+    1.2573
+   ],
+   "p_f1_up": 0.6069,
+   "p_f1_two_sided": 0.7862,
+   "p_f1_note": "two-sided = 2*min(p_up, 1-p_up)",
+   "mcnemar_p": 0.699216,
+   "mcnemar_p_used": 0.699216,
+   "mcnemar_note": "",
+   "fixed": 124,
+   "broken": 117,
+   "holm_p_f1": 1.0,
+   "holm_p_mcnemar": 1.0,
+   "sig_f1_raw": false,
+   "sig_f1_holm": false,
+   "sig_mcnemar_raw": false,
+   "sig_mcnemar_holm": false
+  },
+  {
+   "round": 1,
+   "model": 14,
+   "commits": [
+    "untrained rows to zero (CNN sub-model)"
+   ],
+   "d_f1": 0.114,
+   "ci_f1": [
+    -0.4484,
+    0.6782
+   ],
+   "p_f1_up": 0.6547,
+   "p_f1_two_sided": 0.6906000000000001,
+   "p_f1_note": "two-sided = 2*min(p_up, 1-p_up)",
+   "mcnemar_p": 1.0,
+   "mcnemar_p_used": 1.0,
+   "mcnemar_note": "",
+   "fixed": 26,
+   "broken": 26,
+   "holm_p_f1": 1.0,
+   "holm_p_mcnemar": 1.0,
+   "sig_f1_raw": false,
+   "sig_f1_holm": false,
+   "sig_mcnemar_raw": false,
+   "sig_mcnemar_holm": false
+  },
+  {
+   "round": 1,
+   "model": 15,
+   "commits": [],
+   "d_f1": 0.0,
+   "ci_f1": [
+    0.0,
+    0.0
+   ],
+   "p_f1_up": 0.0,
+   "p_f1_two_sided": 1.0,
+   "p_f1_note": "no prediction changed; p_f1_up=0 is a tie artefact, set p=1",
+   "mcnemar_p": 1.0,
+   "mcnemar_p_used": 1.0,
+   "mcnemar_note": "",
+   "fixed": 0,
+   "broken": 0,
+   "holm_p_f1": 1.0,
+   "holm_p_mcnemar": 1.0,
+   "sig_f1_raw": false,
+   "sig_f1_holm": false,
+   "sig_mcnemar_raw": false,
+   "sig_mcnemar_holm": false
+  },
+  {
+   "round": 2,
+   "model": 0,
+   "commits": [
+    "F1 threshold"
+   ],
+   "d_f1": 0.447,
+   "ci_f1": [
+    -0.1582,
+    1.0728
+   ],
+   "p_f1_up": 0.9235,
+   "p_f1_two_sided": 0.15300000000000002,
+   "p_f1_note": "two-sided = 2*min(p_up, 1-p_up)",
+   "mcnemar_p": 0.694004,
+   "mcnemar_p_used": 0.694004,
+   "mcnemar_note": "",
+   "fixed": 27,
+   "broken": 31,
+   "holm_p_f1": 1.0,
+   "holm_p_mcnemar": 1.0,
+   "sig_f1_raw": false,
+   "sig_f1_holm": false,
+   "sig_mcnemar_raw": false,
+   "sig_mcnemar_holm": false
+  },
+  {
+   "round": 2,
+   "model": 2,
+   "commits": [
+    "untrained rows to zero",
+    "F1 threshold"
+   ],
+   "d_f1": 0.563,
+   "ci_f1": [
+    -0.3729,
+    1.4947
+   ],
+   "p_f1_up": 0.8834,
+   "p_f1_two_sided": 0.23320000000000007,
+   "p_f1_note": "two-sided = 2*min(p_up, 1-p_up)",
+   "mcnemar_p": 0.926078,
+   "mcnemar_p_used": 0.926078,
+   "mcnemar_note": "",
+   "fixed": 57,
+   "broken": 59,
+   "holm_p_f1": 1.0,
+   "holm_p_mcnemar": 1.0,
+   "sig_f1_raw": false,
+   "sig_f1_holm": false,
+   "sig_mcnemar_raw": false,
+   "sig_mcnemar_holm": false
+  },
+  {
+   "round": 2,
+   "model": 3,
+   "commits": [
+    "untrained rows to zero",
+    "rare rows to zero",
+    "F1 threshold"
+   ],
+   "d_f1": 1.816,
+   "ci_f1": [
+    0.7213,
+    2.9155
+   ],
+   "p_f1_up": 0.9995,
+   "p_f1_two_sided": 0.0009999999999998899,
+   "p_f1_note": "two-sided = 2*min(p_up, 1-p_up)",
+   "mcnemar_p": 0.006734,
+   "mcnemar_p_used": 0.006734,
+   "mcnemar_note": "",
+   "fixed": 136,
+   "broken": 94,
+   "holm_p_f1": 0.022999999999997467,
+   "holm_p_mcnemar": 0.10101,
+   "sig_f1_raw": true,
+   "sig_f1_holm": true,
+   "sig_mcnemar_raw": true,
+   "sig_mcnemar_holm": false
+  },
+  {
+   "round": 2,
+   "model": 4,
+   "commits": [
+    "untrained rows to zero"
+   ],
+   "d_f1": 1.495,
+   "ci_f1": [
+    0.5907,
+    2.4162
+   ],
+   "p_f1_up": 0.9995,
+   "p_f1_two_sided": 0.0009999999999998899,
+   "p_f1_note": "two-sided = 2*min(p_up, 1-p_up)",
+   "mcnemar_p": 7.4e-05,
+   "mcnemar_p_used": 7.4e-05,
+   "mcnemar_note": "",
+   "fixed": 110,
+   "broken": 58,
+   "holm_p_f1": 0.022999999999997467,
+   "holm_p_mcnemar": 0.0013319999999999999,
+   "sig_f1_raw": true,
+   "sig_f1_holm": true,
+   "sig_mcnemar_raw": true,
+   "sig_mcnemar_holm": true
+  },
+  {
+   "round": 2,
+   "model": 5,
+   "commits": [
+    "untrained rows to zero",
+    "F1 threshold"
+   ],
+   "d_f1": 0.357,
+   "ci_f1": [
+    -0.8449,
+    1.5959
+   ],
+   "p_f1_up": 0.7211,
+   "p_f1_two_sided": 0.5578000000000001,
+   "p_f1_note": "two-sided = 2*min(p_up, 1-p_up)",
+   "mcnemar_p": 6e-06,
+   "mcnemar_p_used": 6e-06,
+   "mcnemar_note": "",
+   "fixed": 182,
+   "broken": 105,
+   "holm_p_f1": 1.0,
+   "holm_p_mcnemar": 0.000132,
+   "sig_f1_raw": false,
+   "sig_f1_holm": false,
+   "sig_mcnemar_raw": true,
+   "sig_mcnemar_holm": true
+  },
+  {
+   "round": 2,
+   "model": 6,
+   "commits": [
+    "untrained rows to zero"
+   ],
+   "d_f1": -0.001,
+   "ci_f1": [
+    -0.1529,
+    0.1249
+   ],
+   "p_f1_up": 0.4585,
+   "p_f1_two_sided": 0.917,
+   "p_f1_note": "two-sided = 2*min(p_up, 1-p_up)",
+   "mcnemar_p": 1.0,
+   "mcnemar_p_used": 1.0,
+   "mcnemar_note": "",
+   "fixed": 3,
+   "broken": 2,
+   "holm_p_f1": 1.0,
+   "holm_p_mcnemar": 1.0,
+   "sig_f1_raw": false,
+   "sig_f1_holm": false,
+   "sig_mcnemar_raw": false,
+   "sig_mcnemar_holm": false
+  },
+  {
+   "round": 2,
+   "model": 7,
+   "commits": [
+    "untrained rows to zero"
+   ],
+   "d_f1": 0.054,
+   "ci_f1": [
+    0.0,
+    0.1376
+   ],
+   "p_f1_up": 0.8618,
+   "p_f1_two_sided": 0.2764,
+   "p_f1_note": "two-sided = 2*min(p_up, 1-p_up)",
+   "mcnemar_p": 0.5,
+   "mcnemar_p_used": 0.5,
+   "mcnemar_note": "",
+   "fixed": 2,
+   "broken": 0,
+   "holm_p_f1": 1.0,
+   "holm_p_mcnemar": 1.0,
+   "sig_f1_raw": false,
+   "sig_f1_holm": false,
+   "sig_mcnemar_raw": false,
+   "sig_mcnemar_holm": false
+  },
+  {
+   "round": 2,
+   "model": 8,
+   "commits": [
+    "untrained rows to zero"
+   ],
+   "d_f1": 0.783,
+   "ci_f1": [
+    0.0372,
+    1.5447
+   ],
+   "p_f1_up": 0.9806,
+   "p_f1_two_sided": 0.038799999999999946,
+   "p_f1_note": "two-sided = 2*min(p_up, 1-p_up)",
+   "mcnemar_p": 0.023646,
+   "mcnemar_p_used": 0.023646,
+   "mcnemar_note": "",
+   "fixed": 64,
+   "broken": 40,
+   "holm_p_f1": 0.737199999999999,
+   "holm_p_mcnemar": 0.331044,
+   "sig_f1_raw": true,
+   "sig_f1_holm": false,
+   "sig_mcnemar_raw": true,
+   "sig_mcnemar_holm": false
+  },
+  {
+   "round": 2,
+   "model": 12,
+   "commits": [
+    "untrained rows to zero"
+   ],
+   "d_f1": -0.273,
+   "ci_f1": [
+    -0.9936,
+    0.4522
+   ],
+   "p_f1_up": 0.2345,
+   "p_f1_two_sided": 0.469,
+   "p_f1_note": "two-sided = 2*min(p_up, 1-p_up)",
+   "mcnemar_p": 0.714026,
+   "mcnemar_p_used": 0.714026,
+   "mcnemar_note": "",
+   "fixed": 57,
+   "broken": 62,
+   "holm_p_f1": 1.0,
+   "holm_p_mcnemar": 1.0,
+   "sig_f1_raw": false,
+   "sig_f1_holm": false,
+   "sig_mcnemar_raw": false,
+   "sig_mcnemar_holm": false
+  },
+  {
+   "round": 2,
+   "model": 13,
+   "commits": [
+    "untrained rows to zero"
+   ],
+   "d_f1": 0.676,
+   "ci_f1": [
+    -0.0691,
+    1.4132
+   ],
+   "p_f1_up": 0.9626,
+   "p_f1_two_sided": 0.07479999999999998,
+   "p_f1_note": "two-sided = 2*min(p_up, 1-p_up)",
+   "mcnemar_p": 0.048725,
+   "mcnemar_p_used": 0.048725,
+   "mcnemar_note": "",
+   "fixed": 68,
+   "broken": 46,
+   "holm_p_f1": 1.0,
+   "holm_p_mcnemar": 0.633425,
+   "sig_f1_raw": false,
+   "sig_f1_holm": false,
+   "sig_mcnemar_raw": true,
+   "sig_mcnemar_holm": false
+  },
+  {
+   "round": 2,
+   "model": 14,
+   "commits": [
+    "untrained rows to zero (CNN sub-model)"
+   ],
+   "d_f1": 0.114,
+   "ci_f1": [
+    -0.4484,
+    0.6782
+   ],
+   "p_f1_up": 0.6547,
+   "p_f1_two_sided": 0.6906000000000001,
+   "p_f1_note": "two-sided = 2*min(p_up, 1-p_up)",
+   "mcnemar_p": 1.0,
+   "mcnemar_p_used": 1.0,
+   "mcnemar_note": "",
+   "fixed": 26,
+   "broken": 26,
+   "holm_p_f1": 1.0,
+   "holm_p_mcnemar": 1.0,
+   "sig_f1_raw": false,
+   "sig_f1_holm": false,
+   "sig_mcnemar_raw": false,
+   "sig_mcnemar_holm": false
+  },
+  {
+   "round": 2,
+   "model": 15,
+   "commits": [
+    "F1 threshold"
+   ],
+   "d_f1": -0.076,
+   "ci_f1": [
+    -0.8143,
+    0.6412
+   ],
+   "p_f1_up": 0.4189,
+   "p_f1_two_sided": 0.8378,
+   "p_f1_note": "two-sided = 2*min(p_up, 1-p_up)",
+   "mcnemar_p": 0.283607,
+   "mcnemar_p_used": 0.283607,
+   "mcnemar_note": "",
+   "fixed": 49,
+   "broken": 38,
+   "holm_p_f1": 1.0,
+   "holm_p_mcnemar": 1.0,
+   "sig_f1_raw": false,
+   "sig_f1_holm": false,
+   "sig_mcnemar_raw": false,
+   "sig_mcnemar_holm": false
+  }
+ ]
+}
