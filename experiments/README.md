@@ -11,4 +11,4 @@ Model weights, cached logits and the dataset are not in the repository.
 | `fresh_noise` | Is the gain a property of the architecture or of one random start? 30 fresh random draws for the untrained rows. | Part of the pattern is luck of the start. The link to the head count is weak. |
 | `stage_trace` | Where does the larger noise-to-signal of M3, M4 and M13 come from? | It appears before the classifier, in the pooled message vector. The cause is not found. |
 | `figures` | Scripts and images for the article. | |
-| `retrain_kit` | Train 6 architectures with 5 seeds each and compare architecture and seed effects. | Not run yet. The dataset file is not included. |
+| `retrain_kit` | Train 6 architectures with 5 seeds each and compare architecture and seed effects. | The zero edit raises F1 in all 30 models. The gain depends on the architecture (largest with 1 or 2 heads and 1 layer). Results in `out/`. The dataset file is not included. |
