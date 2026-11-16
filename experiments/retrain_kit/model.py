@@ -15,7 +15,10 @@ D_FF = 512
 HEAD_DROPOUT = 0.5
 
 # name -> (heads, layers). Every other size comes from the archive checkpoints.
-ARCHS = {'M3': (1, 1), 'M4': (2, 1), 'M5': (8, 1), 'M8': (16, 1), 'M13': (1, 2), 'M12': (8, 2)}
+# The six old names are archive models. The four new ones fill the grid heads {1,2,4,8,16} x layers {1,2}.
+# A second layer is built the same way for all names: nn.TransformerEncoder(num_layers=2), one final LayerNorm.
+ARCHS = {'M3': (1, 1), 'M4': (2, 1), 'M5': (8, 1), 'M8': (16, 1), 'M13': (1, 2), 'M12': (8, 2),
+         'H4L1': (4, 1), 'H2L2': (2, 2), 'H4L2': (4, 2), 'H16L2': (16, 2)}
 
 
 def one_hot_types(types):
@@ -77,3 +80,8 @@ class TwinTransformer(nn.Module):
 def build_arch(name, v_twin, v_msg, dropout=0.2):
     nhead, n_layers = ARCHS[name]
     return TwinTransformer(v_twin, v_msg, nhead, n_layers, dropout)
+
+
+def arch_table():
+    """List of dicts {arch, heads, layers} in ARCHS order."""
+    return [{'arch': a, 'heads': h, 'layers': n} for a, (h, n) in ARCHS.items()]
