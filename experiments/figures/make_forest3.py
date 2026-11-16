@@ -33,10 +33,10 @@ for ax, rnd in zip(axes, (1, 2, 3)):
         if (rnd, m) not in row: ax.text(0.15, y, "not run", va="center", fontsize=9, color="#888"); continue
         d, lo, hi, holm, raw = row[(rnd, m)]; c = colour(d, holm, raw)
         ax.plot([lo, hi], [y, y], color=c, lw=3, solid_capstyle="round"); ax.plot(d, y, "o", color=c, ms=9, mec="white", mew=1)
-        if holm:
+        if holm or raw:
             pos = d > 0
             ax.text(hi + 0.25 if pos else d, y if pos else y + 0.18, f"{d:+.1f}", va="center" if pos else "bottom",
-                    ha="left" if pos else "center", fontsize=11, fontweight="bold", color=c)
+                    ha="left" if pos else "center", fontsize=11, fontweight="bold", color=c if holm else "#3b82b8")
     ax.set_title(TITLE[rnd], fontsize=13, pad=14); ax.set_xlabel("F1 change in points (95 % interval)", fontsize=11); ax.set_xlim(-7, 4)
     ax.grid(axis="x", color="#eee"); ax.set_axisbelow(True)
     for s in ("top", "right"): ax.spines[s].set_visible(False)
