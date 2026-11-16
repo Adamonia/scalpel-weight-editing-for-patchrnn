@@ -6,3 +6,4 @@ model-archive/
 temp/
 *.pth
 *.npz
+tmp/

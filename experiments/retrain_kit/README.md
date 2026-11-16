@@ -1,4 +1,4 @@
-# Scalpel retraining kit
+# retrain_kit (Scalpel retraining kit)
 
 Trains word-level TwinTransformer classifiers (10 architectures x 5 seeds = 50 runs), then measures per run how much a
 zero edit of the untrained message-embedding rows helps, why (mechanism), and what the round-3 recipe does.
@@ -16,11 +16,18 @@ Weights go to %USERPROFILE%\scalpel_runs_v2. A step that fails stops the script.
 Only the 4 new architectures x 5 seeds need training (20 runs, about 17 s per epoch, up to 20 epochs).
 Linux: python3 train_seeds.py --data dataset.npz --out runs, then the same steps with --runs runs --out-dir .
 
-## Send back (in the kit folder, small files)
-results.csv, summary.json, mechanism.csv, mechanism_summary.json, round3_results.csv, round3_summary.json
-Also the log.json files of all runs (small). Do not send model.pth.
+## Files in this folder
+- `train_seeds.py`: trains the runs. `analyse_seeds.py`: zero edit, noise-to-signal, trend tests. `mechanism_seeds.py`: attention interventions and analytic prediction. `apply_round3.py`: the round 3 recipe on every run.
+- `model.py`, `common.py`: model class and shared helpers. `recipe.json`: the round 3 recipe (E3, k = 3, no recenter).
+- `run_all.bat`, `run_all.ps1`: run all steps in order on Windows.
+- `out/`: results of the 50 runs (see below). `out/six_architectures/`: results of the first 30 runs (6 architectures x 5 seeds), kept for comparison.
+- The dataset file `dataset.npz` and the model weights are not in the repository.
 
-## What the outputs hold
+## Files to copy back after a run (small files, in the kit folder)
+results.csv, summary.json, mechanism.csv, mechanism_summary.json, round3_results.csv, round3_summary.json
+Also the log.json files of all runs (small). Do not copy model.pth.
+
+## What the outputs hold (copies are in `out/`)
 - results.csv: one row per run (heads, layers, F1/AUC, zero edit, gain, noise-to-signal nsr, spectral norm of V).
 - summary.json: per architecture mean and sd, permutation F test between architectures, and TREND for gain_f1, nsr, f1
   (run-level fit on log2(heads) and layers; architecture-level permutation test of the heads slope inside each layer
@@ -33,7 +40,7 @@ Also the log.json files of all runs (small). Do not send model.pth.
 
 ## Options
 train_seeds.py: --archs M3,H4L1 --seeds 0-4 --epochs --lr --batch --dropout --weight-decay --device auto|cuda|cpu --shuffle
---select-on val|test --micro-batch 16 (memory only; 8 if the GPU runs out of memory).
+--select-on val|test --micro-batch 16 (memory only; 8 if the GPU runs out of memory) --amp (mixed precision on cuda).
 mechanism_seeds.py: --batch 32 (samples per pass; 4 on a small CPU) --limit-runs N --device.
 analyse_seeds.py --from-csv results.csv recomputes summary.json from a results.csv (no runs needed).
 Recipe: Adam, lr 5e-4, batch 256, no weight decay, no shuffling, dropout 0.2 / 0.5, best validation accuracy, early stop rule of

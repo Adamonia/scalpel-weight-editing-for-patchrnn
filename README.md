@@ -1,13 +1,60 @@
 # Scalpel: direct weight editing of security-patch classifiers by an LLM agent
 
-> Run records (`runs/`), data bundles (`bundle*/`) and model checkpoints are not part of this repository because of their size. Paths in this file that point to them are for a local copy.
+> Run records (`runs/`), data bundles (`bundle*/`), the model archive and model checkpoints are not in this repository because of their size. Paths in this file that point to them are for a local copy.
 
-Scalpel lets Claude find the parts of a trained network that do the task incorrectly and correct them
+## Summary
+
+Scalpel lets an LLM agent find the parts of a trained network that do the task incorrectly and correct them
 with direct edits of the weights. There is no gradient training. The agent reads diagnostics, writes
 values into weight tensors, and each edit must pass a guard before it is kept.
 
-The tool works on the models of the repository `Security-Patch-Identification-Using-Deep-Learning`
-(`model-archive`): Model0 (LSTM, PatchRNN), Model2 (Conv2D-E), Model3/4/5/8/12/13 (Transformer encoders).
+The tool works on 12 trained security-patch classifiers from the PatchRNN archive (PatchDB data):
+Model0 (LSTM, PatchRNN), Model2 (Conv2D-E), Model3/4/5/8/12/13 (Transformer encoders), and the models M6, M7, M14, M15.
+The data are split in three parts: diag (2,282 patches), guard (1,522) and a sealed holdout (3,804).
+
+Main finding. The embedding rows of message tokens that were never seen in training are random noise.
+Zeroing these rows raises F1, mostly for models with few attention heads (round 3: M3 +2.33 F1, M4 +1.50).
+The noise goes through the attention weights. Many heads average it away.
+The effect was confirmed on 50 newly trained models (10 architectures x 5 seeds). The gain is positive in all 50 models,
+the mean gain is +0.93 F1, and each doubling of the heads lowers the gain by 0.185 F1 (exact permutation p = 0.0004).
+
+## Three rounds
+
+- Round 1: guard rule MCC. The agent chose the edits. See the table below.
+- Round 2: guard rule F1. The agent chose the edits. See the table below.
+- Round 3: one fixed recipe for all models. Every message-embedding row is multiplied by c/(c+3), where c is the training count of the token. See `experiments/round3/`.
+
+## Layout
+
+```
+.
+|-- scalpel/             The tool: engine, tool functions, edits, agent loop, model classes, report code.
+|-- tests/               Engine tests and a scripted test of the agent loop.
+|-- study/               Scripts of rounds 1 and 2 (diagnostics, recipes, tables, checks).
+|-- tokenizers/          Tokenizer files for Model6, Model7 and Model15.
+|-- results/             Final tables of rounds 1 and 2 (summary_all.md, summary_all.json, verify_final.json).
+|-- experiments/         All later studies. See experiments/README.md.
+|   |-- controls/        Placebo rows, threshold-only, least-squares head, 50 splits, Holm correction.
+|   |-- m6_m7_input/     Can M6 and M7 be repaired by a change of the input format?
+|   |-- fresh_noise/     Fresh random rows in place of the untrained rows.
+|   |-- stage_trace/     Where the noise grows inside the network.
+|   |-- round3/          The fixed recipe, chosen on diag, confirmed on guard, tested once on the holdout.
+|   |-- retrain_kit/     Training and analysis of the 50 new models (10 architectures x 5 seeds).
+|   |-- figures/         Scripts and images of the figures.
+|   `-- tools/           Helper scripts that rebuild and check the models and start earlier steps.
+|-- requirements.txt     Python packages.
+`-- .gitignore
+```
+
+Local only (not in the repository): `runs/` (session records), `bundle/`, `bundle_bert/`, `bundle_roberta/`,
+`bundle_codebert/` (data bundles), `model-archive/` (original models).
+
+## How to start
+
+1. To read the results, open `results/summary_all.md` (rounds 1 and 2) and `experiments/README.md` (all later studies).
+2. To run the tool, install the packages (`pip install -r requirements.txt`), get the model archive and make the data bundle (next sections), then run a session.
+3. To check the tool, run the tests (section Tests).
+4. To train and test the 50 models, read `experiments/retrain_kit/README.md`.
 
 ## Data protocol
 
@@ -22,7 +69,8 @@ The original test set (7,608 samples, split seed 10) is divided one time with a 
 ## Install
 
 ```
-pip install torch numpy nltk anthropic        # scikit-learn only for study/verify_final.py
+pip install -r requirements.txt                 # scikit-learn is needed only for study/verify_final.py
+# experiments/figures also needs matplotlib
 ```
 
 ## Prepare the data bundle (one time)
@@ -50,9 +98,9 @@ python -m scalpel.cli call  --run runs/M3 commit '{"rationale":"...","error_type
 python -m scalpel.cli call  --run runs/M3 finalize
 ```
 
-`call` is the interface for an external agent (for example Claude Code) or for a person.
+`call` is the interface for an external LLM agent or for a person.
 
-Autonomous loop on the Anthropic API (needs `ANTHROPIC_API_KEY`):
+Autonomous loop (uses the `anthropic` Python package and needs the variable `ANTHROPIC_API_KEY`):
 
 ```
 python -m scalpel.cli agent --run runs/M3 --llm claude-opus-5-5 --max-turns 60
@@ -61,11 +109,11 @@ python -m scalpel.cli agent --run runs/M3 --llm claude-opus-5-5 --max-turns 60
 The loop and `call` use the same dispatcher (`scalpel/tools.py`). The loop is tested with a scripted
 client (`tests/test_agent_loop.py`). It was not run against the live API in the study.
 
-## Study of the model archive (second article)
+## Study of the model archive (rounds 1 and 2)
 
-Claude (configured model id `claude-fable-5-2`) ran one session for each model through `scalpel.cli call`.
+An LLM agent (configured model id `claude-fable-5-2`) ran one session for each model through `scalpel.cli call`.
 The study has 12 models: M0, M2, M3, M4, M5, M6, M7, M8, M12, M13, M14, M15. Model1 cannot be reconstructed.
-There are two rounds:
+There are two rounds here. Round 3 is in `experiments/round3/`.
 
 - Round 1 (guard rule MCC): recipes prior correction, rare or untrained rows, code branches. Records are in `runs/M*`.
 - Round 2 (guard rule F1): recipes untrained rows, rare rows, F1 threshold. The sessions start with `--guard-metric f1` at init. Records are in `runs/R2_M*`.
@@ -109,32 +157,27 @@ d F1 and d Acc are changes with 95 % intervals.
 
 F1 is the main metric. In round 1 accuracy rises but F1 does not. In round 2 the F1 interval is above zero for M3, M4 and M8.
 
-See `results/summary_all.md` for the same tables and `results/summary.md` for round 1 details (the effect of each
-commit, the refused edits and the error slices).
+See `results/summary_all.md` for the same tables. Round 3 and all later studies are in `experiments/` (see the section Later studies).
 
-## Folder layout
+
+## Later studies
+
+All studies after round 2 are in `experiments/`. `experiments/README.md` has a table with the question and the result of each folder.
+The scripts there use absolute paths of the study machine. Change them before a run.
+
+## Folders of the first two rounds
 
 | Path | Content |
 |---|---|
 | `scalpel/` | The tool. |
 | `tests/` | Engine tests and the scripted test of the API loop. |
-| `study/` | Scripts of the study: `battery.py` (diagnostics), `protocol.py` (recipe re-test), `overlap.py`, `show_samples.py`, `aggregate.py` (tables), `verify_final.py` (independent check). |
-| `bundle/` | Data bundle made by `scalpel.prepare`, with the cached outputs of the original models. |
-| `runs/M*/` | Records of the round 1 sessions: `journal.jsonl`, `FINAL.json`, `final_predictions.npz`, edited checkpoint (M0 to M5, M8, M12, M13). M6, M7, M14 and M15 hold records only. These folders are records. Use a new folder for a new session. |
-| `runs/R2_M*/` | Records of the round 2 sessions: `journal.jsonl`, `FINAL.json`, `final_predictions.npz`, `config.json`. Records only, no edited checkpoint. `study/r2_protocol.py` and `study/protocol.py` make the edits again. |
-| `bundle_bert/` | Bundle of Model6 (BERT tokens): `bundle.npz`, `vocab.json`, `base_feats_M6.npz`. |
-| `bundle_roberta/` | Bundle of Model7 (RoBERTa tokens): `bundle.npz`, `vocab.json`, `base_feats_M7.npz`. |
-| `bundle_codebert/` | Bundle of Model15 (CodeBERT): `bundle.npz`, `vocab.json`, `base_feats_M15.npz`. |
-| `tokenizers/` | Tokenizer files: `bert/vocab.txt`, `roberta/vocab.json`, `roberta/merges.txt`. |
-| `study/r2_protocol.py` | Round 2 recipes: untrained rows, rare rows, F1 threshold. |
-| `study/aggregate2.py` | Builds `results/summary_all.md` and `summary_all.json` from both rounds. |
-| `study/verify_sample.py` | Checks a final session on a random sample with a new forward pass. |
-| `study/m14_sub.py`, `study/r2_m14_extra.py` | Sub-model edits in the hybrid Model14 (round 1 and round 2). |
-| `study/m15_feats.py`, `study/m15_run.sh` | Base features and sessions of Model15. |
-| `study/r2_m0_probe.py`, `study/r2_m0_diag.py` | Probes of Model0 in round 2. |
-| `results/` | `summary_all.md`, `summary_all.json`, `verify_sample_*.json`, `summary.md`, `summary.json`, `annotations_hard_core.json`, `verify_final.json`. |
-
-The new run folders hold records only. They have no edited checkpoint.
+| `study/` | `battery.py` (diagnostics), `protocol.py` (round 1 recipes), `r2_protocol.py` (round 2 recipes), `overlap.py`, `show_samples.py`, `aggregate.py` (round 1 tables), `aggregate2.py` (`results/summary_all.*` from both rounds), `verify_final.py` (independent check with scikit-learn), `verify_sample.py` (check on a random sample with a new forward pass), `m14_sub.py` and `r2_m14_extra.py` (sub-model edits in Model14), `m15_feats.py` and `m15_run.sh` (Model15), `r2_m0_probe.py` and `r2_m0_diag.py` (probes of Model0). |
+| `tokenizers/` | `bert/vocab.txt`, `roberta/vocab.json`, `roberta/merges.txt`. |
+| `results/` | `summary_all.md`, `summary_all.json`, `verify_final.json`. |
+| `bundle/` (local) | Data bundle made by `scalpel.prepare`, with the cached outputs of the original models. |
+| `bundle_bert/`, `bundle_roberta/`, `bundle_codebert/` (local) | Bundles of Model6, Model7 and Model15. |
+| `runs/M*/` (local) | Records of the round 1 sessions: `journal.jsonl`, `FINAL.json`, `final_predictions.npz`, edited checkpoint (M0 to M5, M8, M12, M13). M6, M7, M14 and M15 hold records only. Use a new folder for a new session. |
+| `runs/R2_M*/` (local) | Records of the round 2 sessions: `journal.jsonl`, `FINAL.json`, `final_predictions.npz`, `config.json`. No edited checkpoint. `study/r2_protocol.py` and `study/protocol.py` make the edits again. |
 
 `raw_test.json` is not in the three new bundle folders. It is equal to `bundle/raw_test.json`. Copy it from
 `bundle/` into `bundle_bert/`, `bundle_roberta/` and `bundle_codebert/` before `show_sample` is used.
