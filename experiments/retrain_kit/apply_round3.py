@@ -42,12 +42,13 @@ def new_table(weight, count, pad_id, edit, k):
     pad_row = weight[pad_id].clone()
     out = weight.clone()
     if edit in ('E1', 'E2'):
-        unseen = torch.from_numpy(count == 0)
+        unseen = torch.from_numpy(count == 0).to(weight.device)
         unseen[pad_id] = False
         out[unseen] = 0.0 if edit == 'E1' else pad_row
     elif edit in ('E3', 'E4'):
         c = torch.from_numpy(count).double()
-        a = (c / (c + k)).float().unsqueeze(1)
+        # Keep the factor on the device of the table (cpu or cuda).
+        a = (c / (c + k)).float().unsqueeze(1).to(weight.device)
         a[pad_id] = 1.0
         out = a * weight if edit == 'E3' else a * weight + (1 - a) * pad_row
     elif edit != 'E0':
