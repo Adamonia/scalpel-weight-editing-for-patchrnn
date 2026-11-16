@@ -51,7 +51,7 @@ Local only (not in the repository): `runs/` (session records), `bundle/`, `bundl
 
 ## How to start
 
-1. To read the results, open `results/summary_all.md` (rounds 1 and 2) and `experiments/README.md` (all later studies).
+1. To read the results, open the round tables below (rounds 1, 2 and 3) and `experiments/README.md` (all later studies).
 2. To run the tool, install the packages (`pip install -r requirements.txt`), get the model archive and make the data bundle (next sections), then run a session.
 3. To check the tool, run the tests (section Tests).
 4. To train and test the 50 models, read `experiments/retrain_kit/README.md`.
@@ -114,14 +114,15 @@ python -m scalpel.cli agent --run runs/M3 --llm claude-opus-5-5 --max-turns 60
 The loop and `call` use the same dispatcher (`scalpel/tools.py`). The loop is tested with a scripted
 client (`tests/test_agent_loop.py`). It was not run against the live API in the study.
 
-## Study of the model archive (rounds 1 and 2)
+## Study of the model archive (rounds 1, 2 and 3)
 
 An LLM agent (configured model id `claude-fable-5-2`) ran one session for each model through `scalpel.cli call`.
 The study has 12 models: M0, M2, M3, M4, M5, M6, M7, M8, M12, M13, M14, M15. Model1 cannot be reconstructed.
-There are two rounds here. Round 3 is in `experiments/round3/`.
+There are three rounds. Each round starts again from the original weights.
 
 - Round 1 (guard rule MCC): recipes prior correction, rare or untrained rows, code branches. Records are in `runs/M*`.
 - Round 2 (guard rule F1): recipes untrained rows, rare rows, F1 threshold. The sessions start with `--guard-metric f1` at init. Records are in `runs/R2_M*`.
+- Round 3 (one fixed recipe for all models, chosen on diag before the guard numbers were seen; guard rule F1 per model): every message-embedding row is multiplied by c/(c+3), c = training count of the token. Code and records are in `experiments/round3/`.
 
 All sessions were finalized after the last edit. Holdout part, 3,804 samples, original -> edited weights.
 d F1 and d Acc are changes with 95 % intervals.
@@ -133,7 +134,7 @@ d F1 and d Acc are changes with 95 % intervals.
 | M0 LSTM baseline (PatchRNN) | code branches removed | 73.75 | 72.88 | -0.86 [-1.69, -0.06] | 83.04 | 82.65 | -0.39 [-0.92, +0.13] | 74.1 -> 73.9 | 73.4 -> 71.9 | 0.8766 -> 0.8730 | 45/60 | 0.17 |
 | M2 Conv2D-E | rare rows to zero | 73.32 | 73.79 | +0.47 [-0.72, +1.68] | 83.62 | 83.44 | -0.18 [-0.92, +0.55] | 77.7 -> 75.8 | 69.4 -> 71.9 | 0.8830 -> 0.8921 | 99/106 | 0.68 |
 | M3 Trans-1H | prior correction; untrained rows to zero | 72.67 | 72.38 | -0.29 [-1.69, +1.04] | 81.57 | 83.47 | +1.89 [+1.00, +2.76] | 70.0 -> 79.0 | 75.5 -> 66.8 | 0.8871 -> 0.8968 | 185/113 | 3.6e-05 |
-| M4 Trans-2H | prior correction; rare rows to zero; recentering | 71.62 | 72.05 | +0.43 [-0.90, +1.72] | 81.02 | 83.33 | +2.31 [+1.45, +3.18] | 69.5 -> 79.0 | 73.8 -> 66.2 | 0.8671 -> 0.8812 | 183/95 | 0 |
+| M4 Trans-2H | prior correction; rare rows to zero; recentering | 71.62 | 72.05 | +0.43 [-0.90, +1.72] | 81.02 | 83.33 | +2.31 [+1.45, +3.18] | 69.5 -> 79.0 | 73.8 -> 66.2 | 0.8671 -> 0.8812 | 183/95 | <1e-6 |
 | M5 Trans-8H | prior correction; untrained rows to zero | 74.04 | 74.44 | +0.40 [-0.82, +1.64] | 81.49 | 83.57 | +2.08 [+1.24, +2.97] | 67.9 -> 75.1 | 81.4 -> 73.7 | 0.8897 -> 0.8932 | 185/106 | 4e-06 |
 | M6 Trans-8H+B | prior correction | 65.13 | 60.84 | -4.29 [-6.23, -2.42] | 75.74 | 78.34 | +2.60 [+1.42, +3.79] | 61.0 -> 73.6 | 69.9 -> 51.9 | 0.8250 -> 0.8250 | 321/222 | 2.5e-05 |
 | M7 Trans-8H+R | prior correction; untrained rows to zero | 68.39 | 66.39 | -2.00 [-3.55, -0.50] | 79.08 | 80.68 | +1.60 [+0.66, +2.55] | 67.1 -> 76.2 | 69.8 -> 58.8 | 0.8520 -> 0.8521 | 196/135 | 0.00095 |
@@ -160,15 +161,34 @@ d F1 and d Acc are changes with 95 % intervals.
 | M14 ParCombCtl (hybrid) | untrained rows to zero (CNN sub-model) | 76.58 | 76.69 | +0.11 [-0.45, +0.68] | 84.96 | 84.96 | +0.00 [-0.37, +0.37] | 77.4 -> 77.1 | 75.8 -> 76.3 | 0.9094 -> 0.9100 | 26/26 | 1 |
 | M15 CodeBERT-SC | F1 threshold | 85.23 | 85.16 | -0.08 [-0.81, +0.64] | 90.30 | 90.59 | +0.29 [-0.18, +0.76] | 84.2 -> 87.2 | 86.3 -> 83.2 | 0.9617 -> 0.9617 | 49/38 | 0.28 |
 
-F1 is the main metric. In round 1 accuracy rises but F1 does not. In round 2 the F1 interval is above zero for M3, M4 and M8.
+## Round 3 (one fixed recipe: every message-embedding row x c/(c+3); no bias change)
 
-See `results/summary_all.md` for the same tables. Round 3 and all later studies are in `experiments/` (see the section Later studies).
+| Model | Accepted edits | F1 orig | F1 edit | d F1 [95% CI] | Acc orig | Acc edit | d Acc | Prec | Rec | AUC | fixed/broken | McNemar p |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| M0 LSTM baseline (PatchRNN) | rows x c/(c+3) | 73.75 | 73.75 | +0.01 [-1.07, +1.07] | 83.04 | 82.28 | -0.76 | 74.1 -> 71.0 | 73.4 -> 76.7 | 0.8766 -> 0.8714 | 95/124 | 0.058 |
+| M2 Conv2D-E | rows x c/(c+3) | 73.32 | 74.31 | +0.99 [-0.06, +2.07] | 83.62 | 83.67 | +0.05 | 77.7 -> 75.9 | 69.4 -> 72.8 | 0.8830 -> 0.8911 | 82/80 | 0.94 |
+| M3 Trans-1H | rows x c/(c+3) | 72.67 | 75.00 | +2.33 [+1.35, +3.30] | 81.57 | 83.60 | +2.02 | 70.0 -> 74.2 | 75.5 -> 75.9 | 0.8871 -> 0.9005 | 127/50 | <1e-6 |
+| M4 Trans-2H | rows x c/(c+3) | 71.62 | 73.12 | +1.50 [+0.25, +2.70] | 81.02 | 83.86 | +2.84 | 69.5 -> 79.5 | 73.8 -> 67.7 | 0.8671 -> 0.8822 | 185/77 | <1e-6 |
+| M5 Trans-8H | rows x c/(c+3) | 74.04 | 74.40 | +0.36 [-0.45, +1.15] | 81.49 | 82.12 | +0.63 | 67.9 -> 69.5 | 81.4 -> 80.1 | 0.8897 -> 0.8936 | 89/65 | 0.063 |
+| M6 Trans-8H+B | none (refused on guard) | 65.13 | 65.13 | +0.00 [+0.00, +0.00] | 75.74 | 75.74 | +0.00 | 61.0 -> 61.0 | 69.9 -> 69.9 | 0.8250 -> 0.8250 | 0/0 | 1 |
+| M7 Trans-8H+R | rows x c/(c+3) | 68.39 | 68.61 | +0.23 [-0.25, +0.71] | 79.08 | 79.36 | +0.29 | 67.1 -> 67.7 | 69.8 -> 69.5 | 0.8520 -> 0.8523 | 23/12 | 0.09 |
+| M8 Trans-16H | rows x c/(c+3) | 71.75 | 72.11 | +0.35 [-0.67, +1.37] | 81.41 | 82.39 | +0.97 | 70.8 -> 74.1 | 72.8 -> 70.2 | 0.8694 -> 0.8779 | 103/66 | 0.0055 |
+| M12 Trans-8H-2E | rows x c/(c+3) | 74.54 | 75.39 | +0.85 [-0.03, +1.75] | 82.10 | 82.99 | +0.89 | 69.2 -> 71.0 | 80.8 -> 80.3 | 0.8886 -> 0.8908 | 104/70 | 0.012 |
+| M13 Trans-1H-2E | rows x c/(c+3) | 72.83 | 73.48 | +0.65 [-0.31, +1.61] | 81.23 | 81.91 | +0.68 | 68.7 -> 70.1 | 77.6 -> 77.2 | 0.8737 -> 0.8830 | 105/79 | 0.065 |
+| M14 ParCombCtl (hybrid) | rows x c/(c+3) | 76.58 | 76.71 | +0.13 [-0.78, +1.09] | 84.96 | 84.52 | -0.45 | 77.4 -> 74.9 | 75.8 -> 78.6 | 0.9094 -> 0.9080 | 62/79 | 0.18 |
+| M15 CodeBERT-SC | not applicable (pre-trained vectors) | 85.23 | 85.23 | +0.00 [+0.00, +0.00] | 90.30 | 90.30 | +0.00 | 84.2 -> 84.2 | 86.3 -> 86.3 | 0.9617 -> 0.9617 | 0/0 | 1 |
+
+No interval was computed for the accuracy change in round 3. M6 keeps its original weights because the recipe lowered its guard F1. M15 has pre-trained vectors and no untrained rows.
+
+F1 is the main metric. In round 1 accuracy rises but F1 does not. In round 2 the F1 interval is above zero for M3, M4 and M8. In round 3 it is above zero for M3 and M4. After a Holm correction over all 36 comparisons, the F1 gains of M3 (rounds 2 and 3) and M4 (round 2) stay significant.
+
+See `results/summary_all.md` for the tables of rounds 1 and 2 and `experiments/round3/final/` for round 3.
 
 
 ## Later studies
 
 All studies after round 2 are in `experiments/`. `experiments/README.md` has a table with the question and the result of each folder.
-The scripts there use absolute paths of the study machine. Change them before a run.
+The scripts read their paths from the environment variables in the section How to start.
 
 ## Folders of the first two rounds
 
