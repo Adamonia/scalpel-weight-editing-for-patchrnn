@@ -1,0 +1,30 @@
+M6
+  orig    none       all  n=7608 F1 65.16 acc 75.85 P 61.62 R 69.13 AUC 82.09 | dF1 +0.00 [+0.00,+0.00] p=1.000 flips 0 posrate 36.6
+  orig    none       hold n=3804 F1 65.13 acc 75.74 P 61.00 R 69.85 AUC 82.50 | dF1 +0.00 [+0.00,+0.00] p=1.000 flips 0 posrate 37.1
+  orig    twin       all  n=7608 F1 65.17 acc 75.87 P 61.64 R 69.13 AUC 82.09 | dF1 +0.01 [+0.00,+0.04] p=0.736 flips 1 posrate 36.6
+  orig    twin       hold n=3804 F1 65.13 acc 75.74 P 61.00 R 69.85 AUC 82.50 | dF1 +0.00 [+0.00,+0.00] p=1.000 flips 0 posrate 37.1
+  space   none       all  n=7608 F1 58.44 acc 74.28 P 61.87 R 55.37 AUC 77.24 | dF1 -6.72 [-8.41,-5.02] p=0.000 flips 1772 posrate 29.2
+  space   none       hold n=3804 F1 58.32 acc 74.26 P 61.43 R 55.51 AUC 77.18 | dF1 -6.81 [-9.09,-4.66] p=0.000 flips 888 posrate 29.3
+  space   twin       all  n=7608 F1 58.35 acc 74.24 P 61.82 R 55.25 AUC 77.25 | dF1 -6.81 [-8.50,-5.13] p=0.000 flips 1773 posrate 29.2
+  space   twin       hold n=3804 F1 58.32 acc 74.26 P 61.43 R 55.51 AUC 77.20 | dF1 -6.81 [-9.11,-4.68] p=0.000 flips 888 posrate 29.3
+  space   twin+mean  all  n=7608 F1 58.54 acc 74.29 P 61.85 R 55.57 AUC 77.32 | dF1 -6.62 [-8.31,-4.93] p=0.000 flips 1777 posrate 29.4
+  space   twin+mean  hold n=3804 F1 58.50 acc 74.26 P 61.33 R 55.92 AUC 77.29 | dF1 -6.63 [-8.92,-4.46] p=0.000 flips 888 posrate 29.6
+  pertok  none       all  n=7608 F1 58.44 acc 74.28 P 61.87 R 55.37 AUC 77.24 | dF1 -6.72 [-8.41,-5.02] p=0.000 flips 1772 posrate 29.2
+  pertok  none       hold n=3804 F1 58.32 acc 74.26 P 61.43 R 55.51 AUC 77.18 | dF1 -6.81 [-9.09,-4.66] p=0.000 flips 888 posrate 29.3
+  pertok  twin       all  n=7608 F1 58.35 acc 74.24 P 61.82 R 55.25 AUC 77.25 | dF1 -6.81 [-8.50,-5.13] p=0.000 flips 1773 posrate 29.2
+  pertok  twin       hold n=3804 F1 58.32 acc 74.26 P 61.43 R 55.51 AUC 77.20 | dF1 -6.81 [-9.11,-4.68] p=0.000 flips 888 posrate 29.3
+M7
+  orig    none       all  n=7608 F1 68.26 acc 79.04 P 67.52 R 69.01 AUC 84.82 | dF1 +0.00 [+0.00,+0.00] p=1.000 flips 0 posrate 33.4
+  orig    none       hold n=3804 F1 68.39 acc 79.07 P 67.06 R 69.77 AUC 85.20 | dF1 +0.00 [+0.00,+0.00] p=1.000 flips 0 posrate 33.8
+  orig    twin       all  n=7608 F1 68.26 acc 79.04 P 67.52 R 69.01 AUC 84.82 | dF1 +0.00 [+0.00,+0.00] p=1.000 flips 0 posrate 33.4
+  orig    twin       hold n=3804 F1 68.39 acc 79.07 P 67.06 R 69.77 AUC 85.20 | dF1 +0.00 [+0.00,+0.00] p=1.000 flips 0 posrate 33.8
+  space   none       all  n=7608 F1 38.45 acc 69.70 P 57.14 R 28.97 AUC 66.95 | dF1 -29.81 [-31.93,-27.70] p=0.000 flips 2138 posrate 16.6
+  space   none       hold n=3804 F1 37.37 acc 69.43 P 55.70 R 28.12 AUC 66.29 | dF1 -31.02 [-33.92,-28.08] p=0.000 flips 1065 posrate 16.4
+  space   twin       all  n=7608 F1 55.85 acc 75.71 P 68.72 R 47.04 AUC 78.52 | dF1 -12.41 [-14.26,-10.67] p=0.000 flips 1597 posrate 22.4
+  space   twin       hold n=3804 F1 54.92 acc 75.53 P 68.23 R 45.95 AUC 78.36 | dF1 -13.47 [-16.17,-10.81] p=0.000 flips 829 posrate 21.8
+  space   twin+mean  all  n=7608 F1 56.03 acc 76.03 P 69.87 R 46.76 AUC 79.15 | dF1 -12.23 [-14.04,-10.44] p=0.000 flips 1579 posrate 21.9
+  space   twin+mean  hold n=3804 F1 54.85 acc 75.76 P 69.31 R 45.38 AUC 79.17 | dF1 -13.54 [-16.24,-10.89] p=0.000 flips 830 posrate 21.2
+  pertok  none       all  n=7608 F1 68.84 acc 79.90 P 69.74 R 67.97 AUC 84.79 | dF1 +0.58 [-0.73,+1.81] p=0.412 flips 1094 posrate 31.8
+  pertok  none       hold n=3804 F1 68.83 acc 80.02 P 69.68 R 67.99 AUC 84.67 | dF1 +0.44 [-1.35,+2.32] p=0.656 flips 566 posrate 31.7
+  pertok  twin       all  n=7608 F1 68.84 acc 79.90 P 69.74 R 67.97 AUC 84.79 | dF1 +0.58 [-0.73,+1.81] p=0.412 flips 1094 posrate 31.8
+  pertok  twin       hold n=3804 F1 68.83 acc 80.02 P 69.68 R 67.99 AUC 84.67 | dF1 +0.44 [-1.35,+2.32] p=0.656 flips 566 posrate 31.7

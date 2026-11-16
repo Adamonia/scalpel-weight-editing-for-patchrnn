@@ -1,0 +1,350 @@
+{
+ "6": {
+  "vocab": 30522,
+  "rows_code": {
+   "trained": 3601,
+   "untrained": 26921,
+   "frac_untrained": 0.8820195268986305,
+   "norm_trained_mean": 11.07663345336914,
+   "norm_untrained_mean": 11.06754207611084,
+   "norm_untrained_std": 0.706605851650238,
+   "std_untrained": 0.9999583959579468,
+   "std_trained": 1.000725269317627
+  },
+  "rows_msg": {
+   "trained": 7890,
+   "untrained": 22632,
+   "frac_untrained": 0.7414979359150776,
+   "norm_trained_mean": 11.288840293884277,
+   "norm_untrained_mean": 11.28582763671875,
+   "norm_untrained_std": 0.7055354118347168,
+   "std_untrained": 0.9994829893112183,
+   "std_trained": 0.9997607469558716
+  },
+  "pos_tok_b": {
+   "len_orig": 197.7314668769716,
+   "len_space": 196.8903785488959,
+   "frac_samples_identical": 0.1284174553101998,
+   "frac_pos_untrained_row_space": 0.0001482033349755865,
+   "frac_pos_untrained_row_orig": 0.00013959600914952128,
+   "frac_multiset_mismatch_space": 0.0769916325198172,
+   "frac_border_marker_orig": 0.36471052773274143,
+   "frac_border_marker_space": 0.294727032154783
+  },
+  "pos_tok_a": {
+   "len_orig": 235.79850157728706,
+   "len_space": 234.88551524710832,
+   "frac_samples_identical": 0.10488958990536278,
+   "frac_pos_untrained_row_space": 0.00018802367531445,
+   "frac_pos_untrained_row_orig": 0.00018227881970283536,
+   "frac_multiset_mismatch_space": 0.08278637656553492,
+   "frac_border_marker_orig": 0.36857279028738177,
+   "frac_border_marker_space": 0.29332756578170566
+  },
+  "pos_msg": {
+   "len_orig": 37.403654048370136,
+   "len_space": 45.24421661409043,
+   "frac_samples_identical": 0.03378023133543638,
+   "frac_pos_untrained_row_space": 0.016053779872057822,
+   "frac_pos_untrained_row_orig": 0.0015216100250556109,
+   "frac_multiset_mismatch_space": 0.6847143380067283,
+   "frac_border_marker_orig": 0.7964521536228727,
+   "frac_border_marker_space": 0.3631477726324597
+  },
+  "twins_code": {
+   "untrained": 26921,
+   "has_twin": 4300,
+   "twin_trained": 464
+  },
+  "twins_msg": {
+   "untrained": 22632,
+   "has_twin": 2727,
+   "twin_trained": 505
+  },
+  "example": {
+   "abstract": [
+    "VAR0",
+    "=",
+    "FUNC0",
+    "(",
+    "VAR1",
+    ",",
+    "LITERAL",
+    ",",
+    "-",
+    "1",
+    ")",
+    ";",
+    "for",
+    "("
+   ],
+   "orig": [
+    "var",
+    "##0",
+    "=",
+    "fun",
+    "##c",
+    "##0",
+    "(",
+    "var",
+    "##1",
+    ",",
+    "literal",
+    ",",
+    "-",
+    "1",
+    ")",
+    ";",
+    "for",
+    "("
+   ],
+   "space": [
+    "var",
+    "##0",
+    "=",
+    "fun",
+    "##c",
+    "##0",
+    "(",
+    "var",
+    "##1",
+    ",",
+    "literal",
+    ",",
+    "-",
+    "1",
+    ")",
+    ";",
+    "for",
+    "("
+   ]
+  },
+  "top_untrained_in_space_tok_a": [
+   [
+    "checks",
+    5
+   ],
+   [
+    "##ob",
+    4
+   ],
+   [
+    "inn",
+    4
+   ],
+   [
+    "year",
+    3
+   ],
+   [
+    "1972",
+    3
+   ],
+   [
+    "1960",
+    3
+   ],
+   [
+    "1824",
+    3
+   ],
+   [
+    "274",
+    3
+   ],
+   [
+    "##vb",
+    3
+   ],
+   [
+    "live",
+    3
+   ],
+   [
+    "##card",
+    3
+   ],
+   [
+    "didn",
+    2
+   ]
+  ]
+ },
+ "7": {
+  "vocab": 50265,
+  "rows_code": {
+   "trained": 4809,
+   "untrained": 45456,
+   "frac_untrained": 0.9043270665472993,
+   "norm_trained_mean": 11.079362869262695,
+   "norm_untrained_mean": 11.059545516967773,
+   "norm_untrained_std": 0.7065471410751343,
+   "std_untrained": 0.9992381930351257,
+   "std_trained": 1.0010021924972534
+  },
+  "rows_msg": {
+   "trained": 7730,
+   "untrained": 42535,
+   "frac_untrained": 0.8462150601810405,
+   "norm_trained_mean": 11.29902172088623,
+   "norm_untrained_mean": 11.28970718383789,
+   "norm_untrained_std": 0.7062951326370239,
+   "std_untrained": 0.9998293519020081,
+   "std_trained": 1.0006474256515503
+  },
+  "pos_tok_b": {
+   "len_orig": 211.26643007360673,
+   "len_space": 220.0976603575184,
+   "frac_samples_identical": 0.0005257623554153522,
+   "frac_pos_untrained_row_space": 0.15663393854773625,
+   "frac_pos_untrained_row_orig": 0.00019286823055841574,
+   "frac_multiset_mismatch_space": 0.5699643416583906,
+   "frac_border_marker_orig": 0.001038999822685659,
+   "frac_border_marker_space": 0.5698896926431305
+  },
+  "pos_tok_a": {
+   "len_orig": 252.03654048370137,
+   "len_space": 261.80651945320716,
+   "frac_samples_identical": 0.0002628811777076761,
+   "frac_pos_untrained_row_space": 0.1543063041714529,
+   "frac_pos_untrained_row_orig": 0.00026649366308317,
+   "frac_multiset_mismatch_space": 0.5686712279799822,
+   "frac_border_marker_orig": 0.0014727555861974015,
+   "frac_border_marker_space": 0.5688916289792673
+  },
+  "pos_msg": {
+   "len_orig": 45.40036803364879,
+   "len_space": 41.15654574132492,
+   "frac_samples_identical": 0.03378023133543638,
+   "frac_pos_untrained_row_space": 0.5338609282732762,
+   "frac_pos_untrained_row_orig": 0.0007816887952149065,
+   "frac_multiset_mismatch_space": 0.6179439765712077,
+   "frac_border_marker_orig": 0.0,
+   "frac_border_marker_space": 0.5334233949393042
+  },
+  "twins_code": {
+   "untrained": 45456,
+   "has_twin": 14012,
+   "twin_trained": 2062
+  },
+  "twins_msg": {
+   "untrained": 42535,
+   "has_twin": 13293,
+   "twin_trained": 3779
+  },
+  "example": {
+   "abstract": [
+    "VAR0",
+    "=",
+    "FUNC0",
+    "(",
+    "VAR1",
+    ",",
+    "LITERAL",
+    ",",
+    "-",
+    "1",
+    ")",
+    ";",
+    "for",
+    "("
+   ],
+   "orig": [
+    "V",
+    "AR",
+    "0",
+    "=",
+    "FUN",
+    "C",
+    "0",
+    "(",
+    "V",
+    "AR",
+    "1",
+    ",",
+    "L",
+    "IT",
+    "ERAL",
+    ",-",
+    "1",
+    ");",
+    "for",
+    "("
+   ],
+   "space": [
+    "V",
+    "AR",
+    "0",
+    "\u0120=",
+    "\u0120FUN",
+    "C",
+    "0",
+    "\u0120(",
+    "\u0120V",
+    "AR",
+    "1",
+    "\u0120,",
+    "\u0120L",
+    "IT",
+    "ERAL",
+    "\u0120,",
+    "\u0120-",
+    "\u01201",
+    "\u0120)",
+    "\u0120;",
+    "\u0120for",
+    "\u0120("
+   ]
+  },
+  "top_untrained_in_space_tok_a": [
+   [
+    "\u0120)",
+    89375
+   ],
+   [
+    "\u0120,",
+    61173
+   ],
+   [
+    "\u0120FUN",
+    53834
+   ],
+   [
+    "\u0120{",
+    19437
+   ],
+   [
+    "\u0120}",
+    18992
+   ],
+   [
+    "\u0120&",
+    11488
+   ],
+   [
+    "\u0120COM",
+    8732
+   ],
+   [
+    "\u0120]",
+    7382
+   ],
+   [
+    "\u0120!",
+    4712
+   ],
+   [
+    "\u0120void",
+    3868
+   ],
+   [
+    "\u0120>",
+    3279
+   ],
+   [
+    "\u0120!=",
+    2889
+   ]
+  ]
+ }
+}
