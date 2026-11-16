@@ -1,0 +1,83 @@
+{
+ "model": 12,
+ "n_heads": 8,
+ "n_layers": 2,
+ "n_hit": 4328,
+ "manual_forward_max_abs_gap_all": 0.0,
+ "manual_forward_max_abs_gap_hit": 0.0,
+ "manual_forward_ok": true,
+ "T3": {
+  "share_U_of_all_positions": 0.017025183886289597,
+  "share_U_of_real_positions": 0.12666478753089905,
+  "cls_query": {
+   "mass_U_mean_over_heads": 0.09896954149007797,
+   "mass_U_per_head": [
+    0.09566696733236313,
+    0.05759314447641373,
+    0.14661142230033875,
+    0.12894295156002045,
+    0.12646956741809845,
+    0.05123721808195114,
+    0.14177563786506653,
+    0.04345801845192909
+   ],
+   "ratio_to_share_all_positions": 5.813126087188721,
+   "ratio_per_head": [
+    5.619144439697266,
+    3.3828206062316895,
+    8.611444473266602,
+    7.573659896850586,
+    7.42838191986084,
+    3.009495735168457,
+    8.327406883239746,
+    2.552572727203369
+   ],
+   "mass_on_real_positions": 0.8032321333885193,
+   "ratio_real_only": 0.9727575182914734
+  },
+  "all_query": {
+   "mass_U_mean_over_heads": 0.07806198298931122,
+   "mass_U_per_head": [
+    0.13145886361598969,
+    0.021100718528032303,
+    0.07678545266389847,
+    0.035062357783317566,
+    0.09793229401111603,
+    0.1102520227432251,
+    0.12984083592891693,
+    0.022063756361603737
+   ],
+   "ratio_to_share_all_positions": 4.585089206695557,
+   "ratio_per_head": [
+    7.721435546875,
+    1.2393827438354492,
+    4.510109901428223,
+    2.059440851211548,
+    5.752202033996582,
+    6.4758195877075195,
+    7.62639856338501,
+    1.2959481477737427
+   ],
+   "mass_on_real_positions": 0.604088306427002,
+   "ratio_real_only": 1.0201952457427979
+  }
+ },
+ "T4": {
+  "orig_vs_zero": {
+   "mean_pairwise_cosine": 0.0037881049793213606,
+   "ratio_norm_sum_over_sum_norms": 0.7355177402496338,
+   "ratio_reference_orthogonal_1_over_sqrt_H": 0.35355339059327373,
+   "mean_head_change_norm": 0.3033556342124939,
+   "norm_of_summed_change": 1.6709893941879272
+  },
+  "fresh_vs_zero_5_draws_mean": {
+   "mean_pairwise_cosine": 0.003070709202438593,
+   "ratio_norm_sum_over_sum_norms": 0.7357676982879638,
+   "ratio_reference_orthogonal_1_over_sqrt_H": 0.35355339059327373,
+   "mean_head_change_norm": 0.3113598883152008,
+   "norm_of_summed_change": 1.718403697013855
+  },
+  "caveat": "Exact split only for the CLS attention output of layer 0, before residual, LayerNorm and FF. The model has 2 layers: layer 1 follows, so this is not the pooled representation."
+ },
+ "seconds": 336.3
+}

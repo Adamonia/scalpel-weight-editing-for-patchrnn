@@ -1,0 +1,59 @@
+{
+ "model": 4,
+ "n_heads": 2,
+ "n_layers": 1,
+ "n_hit": 4328,
+ "manual_forward_max_abs_gap_all": 0.0,
+ "manual_forward_max_abs_gap_hit": 0.0,
+ "manual_forward_ok": true,
+ "T3": {
+  "share_U_of_all_positions": 0.017025183886289597,
+  "share_U_of_real_positions": 0.12666478753089905,
+  "cls_query": {
+   "mass_U_mean_over_heads": 0.06720893830060959,
+   "mass_U_per_head": [
+    0.08272305130958557,
+    0.05169451981782913
+   ],
+   "ratio_to_share_all_positions": 3.9476189613342285,
+   "ratio_per_head": [
+    4.858863830566406,
+    3.036355972290039
+   ],
+   "mass_on_real_positions": 0.4437345564365387,
+   "ratio_real_only": 1.1957706212997437
+  },
+  "all_query": {
+   "mass_U_mean_over_heads": 0.02045607380568981,
+   "mass_U_per_head": [
+    0.022064493969082832,
+    0.01884765550494194
+   ],
+   "ratio_to_share_all_positions": 1.2015185356140137,
+   "ratio_per_head": [
+    1.2959915399551392,
+    1.1070456504821777
+   ],
+   "mass_on_real_positions": 0.17908154428005219,
+   "ratio_real_only": 0.9018110632896423
+  }
+ },
+ "T4": {
+  "orig_vs_zero": {
+   "mean_pairwise_cosine": 0.018040958791971207,
+   "ratio_norm_sum_over_sum_norms": 0.9176397919654846,
+   "ratio_reference_orthogonal_1_over_sqrt_H": 0.7071067811865475,
+   "mean_head_change_norm": 0.9905858039855957,
+   "norm_of_summed_change": 1.907912015914917
+  },
+  "fresh_vs_zero_5_draws_mean": {
+   "mean_pairwise_cosine": 0.012652533873915673,
+   "ratio_norm_sum_over_sum_norms": 0.9190235257148742,
+   "ratio_reference_orthogonal_1_over_sqrt_H": 0.7071067811865475,
+   "mean_head_change_norm": 0.9768352746963501,
+   "norm_of_summed_change": 1.8779481410980225
+  },
+  "caveat": "Exact split only for the CLS attention output of layer 0, before residual, LayerNorm and FF. One layer: LayerNorm and FF still follow this vector."
+ },
+ "seconds": 149.2
+}

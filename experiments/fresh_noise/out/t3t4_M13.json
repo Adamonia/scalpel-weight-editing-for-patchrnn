@@ -1,0 +1,38 @@
+{
+ "model": 13,
+ "n_heads": 1,
+ "n_layers": 2,
+ "n_hit": 4328,
+ "manual_forward_max_abs_gap_all": 1.1146068572998047e-05,
+ "manual_forward_max_abs_gap_hit": 1.1146068572998047e-05,
+ "manual_forward_ok": true,
+ "T3": {
+  "share_U_of_all_positions": 0.017025183886289597,
+  "share_U_of_real_positions": 0.12666478753089905,
+  "cls_query": {
+   "mass_U_mean_over_heads": 0.05358989164233208,
+   "mass_U_per_head": [
+    0.05358989164233208
+   ],
+   "ratio_to_share_all_positions": 3.147683620452881,
+   "ratio_per_head": [
+    3.147683620452881
+   ],
+   "mass_on_real_positions": 0.7334901094436646,
+   "ratio_real_only": 0.5768099427223206
+  },
+  "all_query": {
+   "mass_U_mean_over_heads": 0.138866126537323,
+   "mass_U_per_head": [
+    0.138866126537323
+   ],
+   "ratio_to_share_all_positions": 8.156512260437012,
+   "ratio_per_head": [
+    8.156512260437012
+   ],
+   "mass_on_real_positions": 0.8988950848579407,
+   "ratio_real_only": 1.2196391820907593
+  }
+ },
+ "seconds": 36.9
+}

@@ -1,0 +1,83 @@
+{
+ "model": 5,
+ "n_heads": 8,
+ "n_layers": 1,
+ "n_hit": 4328,
+ "manual_forward_max_abs_gap_all": 0.0,
+ "manual_forward_max_abs_gap_hit": 0.0,
+ "manual_forward_ok": true,
+ "T3": {
+  "share_U_of_all_positions": 0.017025183886289597,
+  "share_U_of_real_positions": 0.12666478753089905,
+  "cls_query": {
+   "mass_U_mean_over_heads": 0.08481016755104065,
+   "mass_U_per_head": [
+    0.1432846635580063,
+    0.042236924171447754,
+    0.15011388063430786,
+    0.004771722946316004,
+    0.12839795649051666,
+    0.06361701339483261,
+    0.029191074892878532,
+    0.11686773598194122
+   ],
+   "ratio_to_share_all_positions": 4.981453895568848,
+   "ratio_per_head": [
+    8.41604232788086,
+    2.4808497428894043,
+    8.817166328430176,
+    0.2802743911743164,
+    7.541648864746094,
+    3.7366418838500977,
+    1.714582085609436,
+    6.86440372467041
+   ],
+   "mass_on_real_positions": 0.6797298789024353,
+   "ratio_real_only": 0.9850441217422485
+  },
+  "all_query": {
+   "mass_U_mean_over_heads": 0.021276108920574188,
+   "mass_U_per_head": [
+    0.014685161411762238,
+    0.021595582365989685,
+    0.03001982718706131,
+    0.017366765066981316,
+    0.02636640891432762,
+    0.01914820447564125,
+    0.02265913225710392,
+    0.01836773008108139
+   ],
+   "ratio_to_share_all_positions": 1.2496845722198486,
+   "ratio_per_head": [
+    0.862555205821991,
+    1.268449306488037,
+    1.7632601261138916,
+    1.0200632810592651,
+    1.548671007156372,
+    1.1246988773345947,
+    1.330918550491333,
+    1.0788564682006836
+   ],
+   "mass_on_real_positions": 0.1959153711795807,
+   "ratio_real_only": 0.8573690056800842
+  }
+ },
+ "T4": {
+  "orig_vs_zero": {
+   "mean_pairwise_cosine": 0.01250862330198288,
+   "ratio_norm_sum_over_sum_norms": 0.6840323805809021,
+   "ratio_reference_orthogonal_1_over_sqrt_H": 0.35355339059327373,
+   "mean_head_change_norm": 0.25298750400543213,
+   "norm_of_summed_change": 1.362627387046814
+  },
+  "fresh_vs_zero_5_draws_mean": {
+   "mean_pairwise_cosine": 0.013191881589591503,
+   "ratio_norm_sum_over_sum_norms": 0.684652316570282,
+   "ratio_reference_orthogonal_1_over_sqrt_H": 0.35355339059327373,
+   "mean_head_change_norm": 0.250227564573288,
+   "norm_of_summed_change": 1.3502636909484864
+  },
+  "caveat": "Exact split only for the CLS attention output of layer 0, before residual, LayerNorm and FF. One layer: LayerNorm and FF still follow this vector."
+ },
+ "seconds": 189.4
+}
