@@ -1,0 +1,74 @@
+{
+ "0": {
+  "pred_equal": true,
+  "max_logit_gap": 0.0,
+  "metrics_equal": true,
+  "changed_tensors_match": true,
+  "auc": 0.8729762753123246,
+  "acc": 82.64984227129337,
+  "seconds": 13
+ },
+ "2": {
+  "pred_equal": true,
+  "max_logit_gap": 0.0,
+  "metrics_equal": true,
+  "changed_tensors_match": true,
+  "auc": 0.89213843815626,
+  "acc": 83.4384858044164,
+  "seconds": 48
+ },
+ "3": {
+  "pred_equal": true,
+  "max_logit_gap": 1.9073486328125e-06,
+  "metrics_equal": true,
+  "changed_tensors_match": true,
+  "auc": 0.8967704910795932,
+  "acc": 83.46477392218718,
+  "seconds": 37
+ },
+ "4": {
+  "pred_equal": true,
+  "max_logit_gap": 9.5367431640625e-07,
+  "metrics_equal": true,
+  "changed_tensors_match": true,
+  "auc": 0.8812315143565261,
+  "acc": 83.33333333333334,
+  "seconds": 40
+ },
+ "13": {
+  "pred_equal": true,
+  "max_logit_gap": 2.86102294921875e-06,
+  "metrics_equal": true,
+  "changed_tensors_match": true,
+  "auc": 0.8802177600918212,
+  "acc": 81.4143007360673,
+  "seconds": 73
+ },
+ "5": {
+  "pred_equal": true,
+  "max_logit_gap": 2.384185791015625e-06,
+  "metrics_equal": true,
+  "changed_tensors_match": true,
+  "auc": 0.8932512029463513,
+  "acc": 83.56992639327025,
+  "seconds": 92
+ },
+ "8": {
+  "pred_equal": true,
+  "max_logit_gap": 1.6689300537109375e-06,
+  "metrics_equal": true,
+  "changed_tensors_match": true,
+  "auc": 0.8748015059690103,
+  "acc": 83.1230283911672,
+  "seconds": 165
+ },
+ "12": {
+  "pred_equal": true,
+  "max_logit_gap": 1.430511474609375e-06,
+  "metrics_equal": true,
+  "changed_tensors_match": true,
+  "auc": 0.8898561509500595,
+  "acc": 83.4384858044164,
+  "seconds": 182
+ }
+}
