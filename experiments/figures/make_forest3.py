@@ -26,7 +26,7 @@ order = sorted(NAME, key=lambda m: row[(3, m)][0])
 GREEN, RED, LIGHT, GREY = "#1a9850", "#d73027", "#9ecae1", "#b0b0b0"
 def colour(d, holm, raw): return (GREEN if d > 0 else RED) if holm else (LIGHT if raw else GREY)
 TITLE = {1: "Round 1 (MCC rule)", 2: "Round 2 (F1 rule)", 3: "Round 3 (one fixed recipe)"}
-fig, axes = plt.subplots(1, 3, figsize=(14.5, 6.4), sharey=True)
+fig, axes = plt.subplots(1, 3, figsize=(16, 6.4), sharey=True, gridspec_kw={'wspace': 0.38})
 for ax, rnd in zip(axes, (1, 2, 3)):
     ax.axvline(0, color="black", lw=1)
     for y, m in enumerate(order):
@@ -37,26 +37,22 @@ for ax, rnd in zip(axes, (1, 2, 3)):
             pos = d > 0
             ax.text(hi + 0.25 if pos else d, y if pos else y + 0.18, f"{d:+.1f}", va="center" if pos else "bottom",
                     ha="left" if pos else "center", fontsize=11, fontweight="bold", color=c)
-    ax.set_title(TITLE[rnd], fontsize=13); ax.set_xlabel("F1 change in points (95 % interval)", fontsize=11); ax.set_xlim(-7, 4.6)
+    ax.set_title(TITLE[rnd], fontsize=13, pad=14); ax.set_xlabel("F1 change in points (95 % interval)", fontsize=11); ax.set_xlim(-7, 4)
     ax.grid(axis="x", color="#eee"); ax.set_axisbelow(True)
     for s in ("top", "right"): ax.spines[s].set_visible(False)
 axes[0].set_yticks(range(len(order))); axes[0].set_yticklabels([NAME[m] for m in order], fontsize=11)
-# Rank column: the F1 rank of the model with original weights and after each round.
-X0 = 5.9
-for y, m in enumerate(order):
-    best = min(RK[k][m] for k in (1, 2, 3)); big = best < RK[0][m] - 1
-    for j, k in enumerate((0, 1, 2, 3)):
-        v = RK[k][m]; hot = k > 0 and v < RK[0][m] - 1
-        axes[2].text(X0 + j * 0.95, y, str(v), va="center", ha="center", fontsize=11,
-                     color=GREEN if hot else "#333", fontweight="bold" if hot else "normal")
-for j, t in enumerate(("orig", "R1", "R2", "R3")):
-    axes[2].text(X0 + j * 0.95, len(order) - 0.45, t, ha="center", va="bottom", fontsize=9.5, color="#555")
-axes[2].text(X0 + 1.42, len(order) + 0.05, "F1 rank", ha="center", va="bottom", fontsize=11, fontweight="bold")
+# Rank column after each round: F1 rank with original weights -> F1 rank after this round.
+for ax, rnd in zip(axes, (1, 2, 3)):
+    for y, m in enumerate(order):
+        a, b = RK[0][m], RK[rnd][m]; hot = b < a - 1
+        ax.text(5.3, y, f"{a} \u2192 {b}" if a != b else f"{a}", va="center", fontsize=11,
+                color=GREEN if hot else "#333", fontweight="bold" if hot else "normal")
+    ax.text(5.3, len(order) - 0.2, "F1 rank", fontsize=11, fontweight="bold", va="bottom")
 h = [Line2D([], [], color=GREEN, marker="o", lw=3, label="Real gain (holds after strict correction)"),
      Line2D([], [], color=RED, marker="o", lw=3, label="Real loss (holds after strict correction)"),
      Line2D([], [], color=LIGHT, marker="o", lw=3, label="Only without correction"),
      Line2D([], [], color=GREY, marker="o", lw=3, label="No clear change")]
 fig.legend(handles=h, loc="lower center", ncol=4, frameon=False, fontsize=10.5)
-fig.tight_layout(rect=(0, 0.06, 0.84, 0.97))
+fig.subplots_adjust(left=0.13, right=0.925, top=0.93, bottom=0.17)
 fig.savefig("/home/claude/work/fig/fig0_gains3.png", dpi=200, facecolor="white")
 for m in order[::-1]: print(NAME[m], [RK[k][m] for k in (0, 1, 2, 3)])
