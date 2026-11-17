@@ -30,7 +30,7 @@ the mean gain is +0.93 F1, and each doubling of the heads lowers the gain by 0.1
 .
 |-- scalpel/             The tool: engine, tool functions, edits, agent loop, model classes, report code.
 |-- tests/               Engine tests and a scripted test of the agent loop.
-|-- study/               The three rounds: scripts of rounds 1, 2 and 3.
+|-- study/               The three rounds of agentic direct weight editing: scripts of rounds 1, 2 and 3.
 |-- tokenizers/          Tokenizer files for Model6, Model7 and Model15.
 |-- results/             Final tables of rounds 1 and 2 (summary_all.md, summary_all.json, verify_final.json).
 |-- experiments/         All later studies. See experiments/README.md.
