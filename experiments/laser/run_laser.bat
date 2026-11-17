@@ -1,6 +1,8 @@
 @echo off
-rem One command for the whole LASER study. Start it from the repository root:
-rem     git pull && experiments\laser\run_laser.bat
+rem One command for the whole LASER study. The folder is the one that holds scalpel\ and experiments\
+rem (for example ...\Downloads\patchrnn-archive\llm-weight-editing). The model archive is looked up next to it
+rem (...\patchrnn-archive\model-archive). Start it from that folder:
+rem     experiments\laser\run_laser.bat
 rem Steps: packages, bundles (from laser_bundles.zip), model archive, sweep, report, commit and push of the results.
 rem Finished models are skipped, so this file can be started again after a stop.
 setlocal
@@ -42,9 +44,14 @@ python laser_report.py --bundles "%REPO%"
 if errorlevel 1 goto :fail
 
 echo [6/6] Commit and push of the results
+if not exist "%REPO%\.git" (
+    echo This folder is not a git clone. Send back out\REPORT.md, out\summary.json, out\laser_rows.csv and out\log.txt.
+    goto :done
+)
 git add out\REPORT.md out\summary.json out\laser_rows.csv out\log.txt
 git commit -q -m "Add LASER sweep results"
 git push -q || echo Push failed: send out\REPORT.md, out\summary.json, out\laser_rows.csv and out\log.txt by hand.
+:done
 
 echo.
 echo Finished. Results: experiments\laser\out\REPORT.md
