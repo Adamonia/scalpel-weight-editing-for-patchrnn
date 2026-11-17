@@ -45,3 +45,21 @@ mechanism_seeds.py: --batch 32 (samples per pass; 4 on a small CPU) --limit-runs
 analyse_seeds.py --from-csv results.csv recomputes summary.json from a results.csv (no runs needed).
 Recipe: Adam, lr 5e-4, batch 256, no weight decay, no shuffling, dropout 0.2 / 0.5, best validation accuracy, early stop rule of
 the original code, max 20 epochs for all. --select-on val (default) uses 10 % of train; the test set is used only for analysis.
+
+## UNK experiment (does training with an UNK token give the same as the zero edit?)
+What it tests: the 50 runs are trained again with one change. Every message token with training count c <= 1 is
+mapped to one new UNK id (train, validation and test). There is no edit. Then F1(UNK) is compared with F1(base + zero edit),
+F1(base) and F1(base + round 3), per (architecture, seed) pair. The rule is in `unk_rule.md` (written before any result).
+- c = number of fit rows (training rows without the validation rows) that contain the token in the model window (`token_counts` of apply_round3.py).
+- UNK id = vocabulary size (80831 for this data): one new row, N(0,1) init, added after the model is built.
+  So all other initial weights and the dropout numbers are the same as in the base run of the same seed. Pad id 0 and the code input do not change.
+- Same split, epochs, validation selection and hyperparameters. fp16 is off. The training order of the rows is the same.
+How to run (kit folder, needs dataset.npz, the first 50 runs in scalpel_runs_v2, and out\round3_results.csv or the file in the kit folder):
+    run_unk.bat          (PowerShell: .\run_unk.ps1)
+Weights go to %USERPROFILE%\scalpel_runs_unk. scalpel_runs_v2 is never written. Finished runs are skipped, so start it again after a stop.
+Run time: 50 runs, the same time per run as the first 50 runs. The analysis takes a few minutes.
+Output: out\unk_results.csv (one row per pair) and out\unk_summary.json (primary test, secondary tests, slope over log2(heads)).
+Send back these two files and the log.json files of scalpel_runs_unk.
+Single steps: `python train_unk.py --data dataset.npz` (same as `train_seeds.py --unk 1 --out ...`), then `python analyse_unk.py --data dataset.npz --runs RUNS --unk-runs UNKRUNS --out-dir out`.
+
+Result (50 pairs, out/unk_summary.json): F1 UNK minus zero edit +0.40 [0.16, 0.63]; UNK minus round 3 +0.07 [-0.20, 0.35]; UNK minus base +1.23 [0.96, 1.50].

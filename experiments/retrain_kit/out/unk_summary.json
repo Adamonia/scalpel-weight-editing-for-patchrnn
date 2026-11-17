@@ -1,0 +1,89 @@
+{
+ "rule": "unk_rule.md",
+ "n_pairs": 50,
+ "n_expected": 50,
+ "complete": true,
+ "unk_k": [
+  1
+ ],
+ "warnings": [],
+ "mean_f1": {
+  "f1_base": 71.96603557115132,
+  "f1_zero": 72.80129248112691,
+  "f1_round3": 73.12682431066408,
+  "f1_unk": 73.19774976222847
+ },
+ "primary_unk_minus_zero": {
+  "n_pairs": 50,
+  "mean": 0.3964572811015455,
+  "ci95_bootstrap": [
+   0.15877639501350435,
+   0.626364085885553
+  ],
+  "n_positive": 35,
+  "n_negative": 15,
+  "n_zero": 0,
+  "p_sign_two_sided": 0.006600447966810918
+ },
+ "secondary": {
+  "unk_minus_base": {
+   "n_pairs": 50,
+   "mean": 1.231714191077146,
+   "ci95_bootstrap": [
+    0.9589860374313333,
+    1.4997788841205182
+   ],
+   "n_positive": 44,
+   "n_negative": 6,
+   "n_zero": 0,
+   "p_sign_two_sided": 3.243740565039843e-08
+  },
+  "unk_minus_round3": {
+   "n_pairs": 50,
+   "mean": 0.07092545156438292,
+   "ci95_bootstrap": [
+    -0.20262142758747392,
+    0.34549060283183886
+   ],
+   "n_positive": 26,
+   "n_negative": 24,
+   "n_zero": 0,
+   "p_sign_two_sided": 0.887724827340783
+  }
+ },
+ "slope_over_log2_heads": {
+  "unk_minus_zero": {
+   "run_level_slope_per_log2_heads": 0.01052306373076793,
+   "run_level_layers2": 0.015431161408857955,
+   "arch_level_slope_per_log2_heads": 0.01052306373076789,
+   "arch_level_p_perm": 0.9069444444444444,
+   "missing_cells": []
+  },
+  "unk_minus_base": {
+   "run_level_slope_per_log2_heads": -0.1480268567646007,
+   "run_level_layers2": -0.3880205977647766,
+   "arch_level_slope_per_log2_heads": -0.14802685676460076,
+   "arch_level_p_perm": 0.15388888888888888,
+   "missing_cells": []
+  },
+  "unk_minus_round3": {
+   "run_level_slope_per_log2_heads": 0.21794116536173885,
+   "run_level_layers2": 0.25862605428514923,
+   "arch_level_slope_per_log2_heads": 0.21794116536173902,
+   "arch_level_p_perm": 0.11555555555555555,
+   "missing_cells": []
+  }
+ },
+ "per_arch_mean_d_unk_vs_zero": {
+  "M3": 0.058328104348069586,
+  "M4": 0.4863159038308737,
+  "M5": 0.4728667023848573,
+  "M8": 0.10407673511238329,
+  "M13": 0.35288456543176494,
+  "M12": -0.13564347591862144,
+  "H4L1": 0.822121056309399,
+  "H2L2": 0.8148996140232271,
+  "H4L2": 0.09436088782443904,
+  "H16L2": 0.8943627176690626
+ }
+}

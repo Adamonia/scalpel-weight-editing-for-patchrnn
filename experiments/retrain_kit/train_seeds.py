@@ -12,8 +12,10 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 
-from common import (VAL_SPLIT_SEED, f1_score, fit_val_rows, forward_batch, load_data, make_batch, pick_device)
+from common import (VAL_SPLIT_SEED, f1_score, fit_val_rows, forward_batch, load_data, make_batch, pick_device,
+                    read_json)
 from model import ARCHS, MSG_MAX_LEN, build_arch
+from unk_tools import add_unk_row, apply_map, build_unk_map
 
 # ---------------------------------------------------------------------------
 # DEFAULTS. Recipe of the public PatchRNN code (TwinRNNTrain in SecurityPatchIdentificationRNN.py):
@@ -93,6 +95,9 @@ def train_one(arch, seed, data, args, device):
     run_dir = Path(args.out) / ('%s_seed%d' % (arch, seed))
     log_path = run_dir / 'log.json'
     if log_path.exists():
+        # A folder must not mix runs with and without UNK.
+        if read_json(log_path)['args'].get('unk') != args.unk:
+            raise SystemExit('%s was made with another --unk value. Use another --out folder.' % run_dir)
         print('skip (finished):', run_dir)
         return
     run_dir.mkdir(parents=True, exist_ok=True)
@@ -106,13 +111,29 @@ def train_one(arch, seed, data, args, device):
     weights = [1 - n_neg / (n_pos + n_neg), 1 - n_pos / (n_pos + n_neg)]
     class_weight = torch.tensor(weights, device=device)
 
-    seed_everything(seed)
     v_twin, v_msg = int(data['n_code_vocab']), int(data['n_msg_vocab'])
+    unk_log = {}
+    if args.unk is not None:
+        # Every message token with c <= K goes to one new UNK id (train, val and test). Pad stays 0.
+        table, unk_id, count = build_unk_map(data['msg'], fit_rows, v_msg, args.unk)
+        data = apply_map(data, table)
+        win = data['msg'][:, :MSG_MAX_LEN - 1]
+        unk_log = {'unk_id': unk_id, 'n_ids_mapped': int((table[:v_msg] == unk_id).sum()),
+                   'unk_share_fit_tokens': float((win[fit_rows] == unk_id).sum() / (win[fit_rows] != 0).sum()),
+                   'unk_share_test_tokens': float((win[data['test_idx']] == unk_id).sum() / (win[data['test_idx']] != 0).sum())}
+        print('UNK: K=%d, id %d, %d ids mapped' % (args.unk, unk_id, unk_log['n_ids_mapped']), flush=True)
+
+    seed_everything(seed)
     model = build_arch(arch, v_twin, v_msg, args.dropout).to(device)
+    if args.unk is not None:
+        add_unk_row(model, seed)     # after build_arch: all other init values stay the same as without UNK
+        v_msg += 1
     opt = make_optimizer(model, args.lr, args.weight_decay)
     scaler = torch.amp.GradScaler('cuda', enabled=use_amp)
     untrained = untrained_msg_rows(data['msg'], fit_rows, v_msg)
     init_rows = model.embedMsg.weight.detach()[torch.from_numpy(untrained).to(device)].clone()
+    if args.unk is not None:
+        unk_init = model.embedMsg.weight.detach()[unk_id].clone()
 
     rng = np.random.RandomState(seed)
     epochs, best_f1, best_epoch, step = [], -1.0, -1, 0
@@ -160,7 +181,9 @@ def train_one(arch, seed, data, args, device):
 
     # Check that the untrained message rows were never changed by training.
     change = (model.embedMsg.weight.detach()[torch.from_numpy(untrained).to(device)] - init_rows).abs().max().item()
-    log = {'arch': arch, 'seed': seed, 'args': vars(args), 'epochs': epochs, 'best_epoch': best_epoch,
+    if args.unk is not None:
+        unk_log['unk_row_max_change'] = (model.embedMsg.weight.detach()[unk_id] - unk_init).abs().max().item()
+    log = {**unk_log, 'arch': arch, 'seed': seed, 'args': vars(args), 'epochs': epochs, 'best_epoch': best_epoch,
            'best_val_f1': best_f1, 'best_val_acc': max(acc_list), 'select_on': args.select_on, 'n_fit': len(fit_rows), 'n_val': len(val_rows), 'val_split_seed': VAL_SPLIT_SEED,
            'class_weights': weights, 'n_untrained_msg_rows': int(len(untrained)),
            'untrained_rows_max_change': change, 'seconds_total': round(time.time() - t_start, 1),
@@ -186,6 +209,8 @@ def main():
     p.add_argument('--shuffle', action='store_true', help='shuffle the training order (original: no)')
     p.add_argument('--select-on', default='val', choices=['val', 'test'],
                    help='val: 10 pct of train. test: replicates the original code (biased)')
+    p.add_argument('--unk', type=int, default=None, metavar='K',
+                   help='map every message token with training count c <= K to one UNK id (default: off)')
     p.add_argument('--limit', type=int, default=0, help=argparse.SUPPRESS)
     args = p.parse_args()
     device = pick_device(args.device)
