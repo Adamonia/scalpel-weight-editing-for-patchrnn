@@ -13,17 +13,14 @@ Choice (in `laser_report.py`): on diag only. Per model: the largest diag F1 gain
 only if guard F1 and guard MCC do not fall. One recipe: (type, branch, layer, rho) with the largest mean diag F1 gain
 over at least 6 models. Holdout is reported, never used for a choice. This study is exploratory.
 
-## Before the run
-- Python packages: `pip install torch transformers safetensors numpy` (torch with CUDA).
-- The model archive in `..\..\..\model-archive` (next to the repository folder), or set `SCALPEL_ARCHIVE`.
-- The four bundles in the repository root: `bundle\bundle.npz`, `bundle_bert\bundle.npz`, `bundle_roberta\bundle.npz`,
-  `bundle_codebert\bundle.npz` (not in the repository).
-
-## Run (Windows cmd, in this folder)
-    run_laser.bat
+## Run (Windows cmd, in the repository root)
+    git pull && experiments\laser\run_laser.bat
+The script installs `transformers` and `safetensors` if they are missing, unpacks `laser_bundles.zip` (the four data
+bundles) into the repository root, looks for the model archive (`SCALPEL_ARCHIVE`, else `..\model-archive` and a few
+usual folders), runs the sweep and the report, then commits and pushes the small result files.
 Run time on one RTX 4090: about 30 minutes (most of it CodeBERT). On a CPU: many hours.
-If the GPU runs out of memory: `python laser_sweep.py --batch 32 --batch-bert 16`, then `python laser_report.py`.
-Linux: `python3 laser_sweep.py --archive ../../../model-archive && python3 laser_report.py`.
+If it stops, start the same line again: finished models are skipped. Out of GPU memory: it tries again with smaller batches.
+Linux: `python3 laser_sweep.py --archive ../../../model-archive --bundles ../.. && python3 laser_report.py --bundles ../..`.
 Smoke test (minutes on a CPU): `python laser_sweep.py --models 3 --limit-rows 300 --max-params 2 --out out_test`.
 
 ## Output (`out/`)
