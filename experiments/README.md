@@ -15,4 +15,5 @@ Before you run a script:
 | `stage_trace` | Where does the larger noise-to-signal of M3, M4 and M13 come from? | It appears before the classifier, in the pooled message vector. The cause is not found with one model per architecture. |
 | `retrain_kit` | Train a grid of 10 architectures (1, 2, 4, 8, 16 heads; 1 and 2 layers) with 5 seeds each. Compare architecture and seed effects, test the mechanism, apply the round 3 recipe. | The zero edit raises F1 in all 50 models (mean +0.93). Each doubling of the heads lowers the gain by 0.185 points (exact permutation p = 0.0004). Noise travels through the attention weights. Round 3 adds +0.33 points over the zero edit. |
 | `figures` | Scripts and images for the article. | Figures 0 to 10 and `NUMBERS.md`. |
+| `laser` | Does a low-rank copy of one weight matrix (LASER) improve any model, also the BERT-based ones? | Not run yet. |
 | `tools` | Helper scripts that rebuild and check the models and run the earlier steps in order. | No results of its own. |
