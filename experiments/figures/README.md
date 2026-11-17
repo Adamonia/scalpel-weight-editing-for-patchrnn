@@ -11,6 +11,6 @@ Scripts and images for the figures of the article. `NUMBERS.md` lists the number
 | `make_seed_fig.py` | `fig7_seeds` | `results.csv` in the current folder |
 | `make_fig50.py` | `fig8_grid50`, `fig9_mechanism` | `results.csv`, `round3_results.csv`, `mechanism.csv` in the current folder |
 
-How to run: `python make_figs.py` and the other scripts, one by one. Needs matplotlib and numpy. The scripts for fig7 to fig9 read the csv files from the current folder. Run them in `../retrain_kit/out/` or copy the csv files here. The figure scripts read the result files in `../controls/out/`, `../round3/` and `../../results/` and write the images to this folder.
+How to run: `python make_figs.py` and the other scripts, one by one. Needs matplotlib and numpy. The scripts for fig7 to fig9 read the csv files from the current folder. Run them in `../retrain_kit/out/` or copy the csv files here. The figure scripts read the result files in `../controls/out/`, `../../study/round3/` and `../../results/` and write the images to this folder.
 
 Results: the png files in this folder.

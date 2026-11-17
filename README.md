@@ -22,7 +22,7 @@ the mean gain is +0.93 F1, and each doubling of the heads lowers the gain by 0.1
 
 - Round 1: guard rule MCC. The agent chose the edits. See the table below.
 - Round 2: guard rule F1. The agent chose the edits. See the table below.
-- Round 3: one fixed recipe for all models. Every message-embedding row is multiplied by c/(c+3), where c is the training count of the token. See `experiments/round3/`.
+- Round 3: one fixed recipe for all models. Every message-embedding row is multiplied by c/(c+3), where c is the training count of the token. See `study/round3/`.
 
 ## Layout
 
@@ -30,7 +30,8 @@ the mean gain is +0.93 F1, and each doubling of the heads lowers the gain by 0.1
 .
 |-- scalpel/             The tool: engine, tool functions, edits, agent loop, model classes, report code.
 |-- tests/               Engine tests and a scripted test of the agent loop.
-|-- study/               Scripts of rounds 1 and 2 (diagnostics, recipes, tables, checks).
+|-- study/               The three rounds: scripts of rounds 1 and 2 (diagnostics, recipes, tables, checks) and round3/.
+|   `-- round3/          The fixed recipe, chosen on diag, confirmed on guard, tested once on the holdout.
 |-- tokenizers/          Tokenizer files for Model6, Model7 and Model15.
 |-- results/             Final tables of rounds 1 and 2 (summary_all.md, summary_all.json, verify_final.json).
 |-- experiments/         All later studies. See experiments/README.md.
@@ -38,7 +39,6 @@ the mean gain is +0.93 F1, and each doubling of the heads lowers the gain by 0.1
 |   |-- m6_m7_input/     Can M6 and M7 be repaired by a change of the input format?
 |   |-- fresh_noise/     Fresh random rows in place of the untrained rows.
 |   |-- stage_trace/     Where the noise grows inside the network.
-|   |-- round3/          The fixed recipe, chosen on diag, confirmed on guard, tested once on the holdout.
 |   |-- retrain_kit/     Training and analysis of the 50 new models (10 architectures x 5 seeds).
 |   |-- figures/         Scripts and images of the figures.
 |   `-- tools/           Helper scripts that rebuild and check the models and start earlier steps.
@@ -122,7 +122,7 @@ There are three rounds. Each round starts again from the original weights.
 
 - Round 1 (guard rule MCC): recipes prior correction, rare or untrained rows, code branches. Records are in `runs/M*`.
 - Round 2 (guard rule F1): recipes untrained rows, rare rows, F1 threshold. The sessions start with `--guard-metric f1` at init. Records are in `runs/R2_M*`.
-- Round 3 (one fixed recipe for all models, chosen on diag before the guard numbers were seen; guard rule F1 per model): every message-embedding row is multiplied by c/(c+3), c = training count of the token. Code and records are in `experiments/round3/`.
+- Round 3 (one fixed recipe for all models, chosen on diag before the guard numbers were seen; guard rule F1 per model): every message-embedding row is multiplied by c/(c+3), c = training count of the token. Code and records are in `study/round3/`.
 
 All sessions were finalized after the last edit. Holdout part, 3,804 samples, original -> edited weights.
 d F1 and d Acc are changes with 95 % intervals.
@@ -182,7 +182,7 @@ All intervals are paired bootstrap intervals (10,000 resamples, seed 12345), as 
 
 F1 is the main metric. In round 1 accuracy rises but F1 does not. In round 2 the F1 interval is above zero for M3, M4 and M8. In round 3 it is above zero for M3 and M4. After a Holm correction over all 36 comparisons, the F1 gains of M3 (rounds 2 and 3) and M4 (round 2) stay significant.
 
-See `results/summary_all.md` for the tables of rounds 1 and 2 and `experiments/round3/final/` for round 3.
+See `results/summary_all.md` for the tables of rounds 1 and 2 and `study/round3/final/` for round 3.
 
 
 ## Later studies
@@ -196,6 +196,7 @@ The scripts read their paths from the environment variables in the section How t
 |---|---|
 | `scalpel/` | The tool. |
 | `tests/` | Engine tests and the scripted test of the API loop. |
+| `study/round3/` | Round 3: `RULE.md`, `select_recipe.py`, `final/` (frozen holdout run), `out/`. |
 | `study/` | `battery.py` (diagnostics), `protocol.py` (round 1 recipes), `r2_protocol.py` (round 2 recipes), `overlap.py`, `show_samples.py`, `aggregate.py` (round 1 tables), `aggregate2.py` (`results/summary_all.*` from both rounds), `verify_final.py` (independent check with scikit-learn), `verify_sample.py` (check on a random sample with a new forward pass), `m14_sub.py` and `r2_m14_extra.py` (sub-model edits in Model14), `m15_feats.py` and `m15_run.sh` (Model15), `r2_m0_probe.py` and `r2_m0_diag.py` (probes of Model0). |
 | `tokenizers/` | `bert/vocab.txt`, `roberta/vocab.json`, `roberta/merges.txt`. |
 | `results/` | `summary_all.md`, `summary_all.json`, `verify_final.json`. |

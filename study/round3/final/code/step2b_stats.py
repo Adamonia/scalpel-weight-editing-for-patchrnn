@@ -14,7 +14,7 @@ from scalpel.engine import confusion_metrics
 
 OUTD = os.path.join(_HERE, '..', 'out') + '/'
 ALL = [0, 2, 3, 4, 5, 6, 7, 8, 12, 13, 14, 15]
-dec = json.load(open(ROOT + '/experiments/round3/out/decisions.json'))
+dec = json.load(open(ROOT + '/study/round3/out/decisions.json'))
 pub = json.load(open(ROOT + '/results/summary_all.json'))
 r1 = {r['model']: r for r in pub if r['round'] == 1}
 r2 = {r['model']: r for r in pub if r['round'] == 2}

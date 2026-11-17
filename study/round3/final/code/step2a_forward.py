@@ -3,7 +3,7 @@ import time
 from fwd import *
 
 OUTD = os.path.dirname(HERE) + '/out/'
-dec = json.load(open(ROOT + '/experiments/round3/out/decisions.json'))
+dec = json.load(open(ROOT + '/study/round3/out/decisions.json'))
 R2_PLAIN = {4: 'E1', 6: 'E1', 7: 'E1', 8: 'E1', 12: 'E1', 13: 'E1', 14: 'E1c'}   # round 2 edit that can be rebuilt
 for no in ALL_MODELS:
     t0 = time.time()

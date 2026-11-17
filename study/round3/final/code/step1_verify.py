@@ -4,7 +4,7 @@ import hashlib, time
 from fwd import *
 
 FIN = os.path.dirname(HERE)   # final/
-dec = json.load(open(ROOT + '/experiments/round3/out/decisions.json'))
+dec = json.load(open(ROOT + '/study/round3/out/decisions.json'))
 res = {}
 for no in ALL_MODELS:
     d = dec[str(no)]
@@ -17,7 +17,7 @@ for no in ALL_MODELS:
     check_idx(s0.part, dev)
     o = edited_margins(no, dev, ('R',))
     part, y = o['part'], o['y']
-    saved = np.load(ROOT + '/experiments/round3/out/margins_M%d.npz' % no)
+    saved = np.load(ROOT + '/study/round3/out/margins_M%d.npz' % no)
     gap_margin = float(np.abs(o['R'] - saved['E3_k3'][dev]).max())
     gap_e0 = float(np.abs(o['E0'] - saved['E0'][dev]).max())
     r = {'applied': d['applied'], 'seconds': round(time.time() - t0, 1), 'n_hit': o['hit']['R'],

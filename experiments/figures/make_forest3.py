@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
 H = json.load(open(os.path.join(ROOT, 'experiments', 'controls', 'out', 'holm.json')))["results"]
-R3 = json.load(open(os.path.join(ROOT, 'experiments', 'round3', 'final', 'out', 'round3_holdout.json')))["models"]
+R3 = json.load(open(os.path.join(ROOT, 'study', 'round3', 'final', 'out', 'round3_holdout.json')))["models"]
 NAME = {15:"M15 CodeBERT",14:"M14 Hybrid",12:"M12 Trans-8H-2E",5:"M5 Trans-8H",0:"M0 LSTM",
         2:"M2 CNN",13:"M13 Trans-1H-2E",3:"M3 Trans-1H",8:"M8 Trans-16H",4:"M4 Trans-2H",
         7:"M7 Trans-8H+RoBERTa",6:"M6 Trans-8H+BERT"}

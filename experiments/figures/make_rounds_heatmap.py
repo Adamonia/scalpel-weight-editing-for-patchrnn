@@ -8,7 +8,7 @@ WORK = os.environ.get('SCALPEL_WORK', os.path.join(ROOT, 'work'))
 import sys, numpy as np, torch, matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-sys.path.insert(0, os.path.join(ROOT, 'experiments', 'round3'))
+sys.path.insert(0, os.path.join(ROOT, 'study', 'round3'))
 import r3lib
 s = r3lib.get_session(3)
 name, window, cnt = r3lib.table_specs(s, 3)[0]
