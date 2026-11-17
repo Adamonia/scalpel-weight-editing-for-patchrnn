@@ -63,3 +63,4 @@ Send back these two files and the log.json files of scalpel_runs_unk.
 Single steps: `python train_unk.py --data dataset.npz` (same as `train_seeds.py --unk 1 --out ...`), then `python analyse_unk.py --data dataset.npz --runs RUNS --unk-runs UNKRUNS --out-dir out`.
 
 Result (50 pairs, out/unk_summary.json): F1 UNK minus zero edit +0.40 [0.16, 0.63]; UNK minus round 3 +0.07 [-0.20, 0.35]; UNK minus base +1.23 [0.96, 1.50].
+Cost: the 50 UNK runs took 8.7 h on one GPU (624 s per model). The round 3 edit of one model takes about 10 ms on a CPU (embedding table times one factor per row).
